@@ -8,7 +8,6 @@ const nameInput: HTMLInputElement = document.getElementById('nameInput') as HTML
 
 const init = () => {
   gameScreen.style.display = 'none';
-  startButton.setAttribute('disabled', 'true');
 
   nameInput.oninput = () => {
     if (nameInput.value) {
