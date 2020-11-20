@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --watch",
+    "build:ci": "webpack",
     "prettier": "prettier --write '**/*.ts'"
   },
   "repository": {
