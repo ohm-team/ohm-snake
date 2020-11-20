@@ -27,14 +27,14 @@ export const takePhoto = async () => {
       const canvas: HTMLCanvasElement = document.querySelector('#takePhotoCanvas');
       canvas.style.display = 'block';
       drawCanvas(canvas, imageBitmap);
-      canvas.toBlob(async (blob) => {
-        try {
-          await createFile(blob);
-          await readFile();
-        } catch (e) {
-          throw e;
-        }
-      });
+      //canvas.toBlob(async (blob) => {
+      //  try {
+      //    await createFile(blob);
+      //    await readFile();
+      //  } catch (e) {
+      //    throw e;
+      //  }
+      //});
     });
 };
 
