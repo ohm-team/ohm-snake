@@ -1,3 +1,3 @@
-import { a } from './a'
+import { a } from './a';
 
-a(125)
+a(125);

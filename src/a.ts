@@ -1,1 +1,3 @@
-export const a = (b: string | number) => {console.log(b)}
+export const a = (b: string | number) => {
+  console.log(b);
+};
