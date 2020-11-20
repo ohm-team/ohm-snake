@@ -1,6 +1,7 @@
-import './style/index.scss';
 import { takePhoto } from './imageCapture';
-import { PHRASES, saySomething, setUpUser } from './voice';
+import './style/index.scss';
+import { setUpUser } from './voice';
+import { createFile } from './fileSystem';
 
 const startButton = document.getElementById('startButton');
 const startScreen = document.getElementById('start');
@@ -17,17 +18,21 @@ const init = () => {
       startButton.setAttribute('disabled', 'true');
     }
   };
-  startButton.onclick = () => {
-    startGame(nameInput.value);
+  startButton.onclick = async () => {
+    await startGame(nameInput.value);
   };
 };
 
-const startGame = (playerName: string) => {
-  takePhoto();
-  gameScreen.style.display = null;
-  startScreen.style.display = 'none';
-  setUpUser(playerName);
-  // saySomething(PHRASES.HELLO);
+const startGame = async (playerName: string) => {
+  try {
+    await takePhoto();
+    gameScreen.style.display = null;
+    startScreen.style.display = 'none';
+    setUpUser(playerName);
+    // saySomething(PHRASES.HELLO);
+  } catch (e) {
+    alert(e);
+  }
 };
 
 init();
