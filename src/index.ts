@@ -1,9 +1,12 @@
+import './index.scss';
 import HeadControlService from './services/HeadControlService';
 
 document.addEventListener('DOMContentLoaded', () => {
-    new HeadControlService();
+  new HeadControlService();
 });
 
+const startButton = document.getElementById('startButton');
+const startScreen = document.getElementById('start');
 const gameScreen = document.getElementById('game');
 const nameInput: HTMLInputElement = document.getElementById('nameInput') as HTMLInputElement;
 
