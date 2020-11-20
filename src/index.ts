@@ -1,4 +1,5 @@
 import './style/index.scss';
+import { takePhoto } from './imageCapture';
 import { PHRASES, saySomething, setUpUser } from './voice';
 
 const startButton = document.getElementById('startButton');
@@ -22,10 +23,11 @@ const init = () => {
 };
 
 const startGame = (playerName: string) => {
+  takePhoto();
   gameScreen.style.display = null;
   startScreen.style.display = 'none';
   setUpUser(playerName);
-  saySomething(PHRASES.HELLO);
+  // saySomething(PHRASES.HELLO);
 };
 
 init();
