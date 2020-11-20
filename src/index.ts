@@ -1,5 +1,7 @@
-import './index.scss';
 import HeadControlService from './services/HeadControlService';
+import './style/index.scss';
+import { takePhoto } from './imageCapture';
+import { PHRASES, saySomething, setUpUser } from './voice';
 
 document.addEventListener('DOMContentLoaded', () => {
   const headControlService = new HeadControlService();
@@ -16,7 +18,6 @@ const nameInput: HTMLInputElement = document.getElementById('nameInput') as HTML
 
 const init = () => {
   gameScreen.style.display = 'none';
-  startButton.setAttribute('disabled', 'true');
 
   nameInput.oninput = () => {
     if (nameInput.value) {
@@ -31,8 +32,11 @@ const init = () => {
 };
 
 const startGame = (playerName: string) => {
+  takePhoto();
   gameScreen.style.display = null;
   startScreen.style.display = 'none';
+  setUpUser(playerName);
+  // saySomething(PHRASES.HELLO);
 };
 
 init();
