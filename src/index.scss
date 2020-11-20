@@ -1,5 +1,5 @@
 @import "./button";
-
+@import "./input";
 body, html {
   margin: 0;
 }
@@ -32,3 +32,7 @@ body {
   font-size: 2em;
   margin-bottom: 1em;
 }
+//
+//.input {
+//  margin: 1em 0;
+//}
