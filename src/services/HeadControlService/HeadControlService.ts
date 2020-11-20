@@ -21,7 +21,7 @@ class HeadControlService extends EventTarget {
           HeadControls.toggle(true);
         }
       },
-      NNCPath: '/vendor/',
+      NNCPath: './vendor/',
       animateDelay: 2, //avoid DOM lags
     });
   }
