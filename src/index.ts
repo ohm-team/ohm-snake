@@ -3,6 +3,9 @@ import { takePhoto } from './imageCapture';
 import './style/index.scss';
 import { setUpUser } from './voice';
 import { createFile } from './fileSystem';
+import { enableMobileConsole } from './console';
+
+enableMobileConsole();
 
 document.addEventListener('DOMContentLoaded', () => {
   const headControlService = new HeadControlService();
