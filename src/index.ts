@@ -2,7 +2,11 @@ import './index.scss';
 import HeadControlService from './services/HeadControlService';
 
 document.addEventListener('DOMContentLoaded', () => {
-  new HeadControlService();
+  const headControlService = new HeadControlService();
+  headControlService.addEventListener('down', () => console.log('down'));
+  headControlService.addEventListener('up', () => console.log('up'));
+  headControlService.addEventListener('left', () => console.log('left'));
+  headControlService.addEventListener('right', () => console.log('right'));
 });
 
 const startButton = document.getElementById('startButton');
