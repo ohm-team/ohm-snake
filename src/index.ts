@@ -1,3 +1,6 @@
-import { a } from './a'
+import HeadControlService from './services/HeadControlService';
 
-a(125)
+document.addEventListener('DOMContentLoaded', () => {
+    new HeadControlService();
+});
+
