@@ -1,0 +1,38 @@
+@import "./button";
+@import "./input";
+body, html {
+  margin: 0;
+}
+
+body {
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #aaffa9, #11ffbd);
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.game {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+
+.title {
+  font-family: 'Bungee Shade';
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+//
+//.input {
+//  margin: 1em 0;
+//}
