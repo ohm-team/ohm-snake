@@ -1,6 +1,9 @@
+import { createFile, readFile } from './fileSystem';
+
 let imageCapture;
 let isInit = false;
 
+// todo: show loader until everything is initialised
 const init = () => {
   if (isInit) {
     return;
@@ -16,16 +19,23 @@ const init = () => {
     .catch((error) => console.log(error));
 };
 
-export const takePhoto = () => {
-  imageCapture
+export const takePhoto = async () => {
+  await imageCapture
     .takePhoto()
     .then((blob) => createImageBitmap(blob))
     .then((imageBitmap) => {
-      const canvas: HTMLElement = document.querySelector('#takePhotoCanvas');
+      const canvas: HTMLCanvasElement = document.querySelector('#takePhotoCanvas');
       canvas.style.display = 'block';
       drawCanvas(canvas, imageBitmap);
-    })
-    .catch((error) => console.log(error));
+      //canvas.toBlob(async (blob) => {
+      //  try {
+      //    await createFile(blob);
+      //    await readFile();
+      //  } catch (e) {
+      //    throw e;
+      //  }
+      //});
+    });
 };
 
 function drawCanvas(canvas, img) {
