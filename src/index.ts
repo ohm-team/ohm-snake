@@ -1,5 +1,5 @@
-import './index.scss';
-import { saySomething } from './voice';
+import './style/index.scss';
+import { PHRASES, saySomething, setUpUser } from './voice';
 
 const startButton = document.getElementById('startButton');
 const startScreen = document.getElementById('start');
@@ -25,7 +25,8 @@ const init = () => {
 const startGame = (playerName: string) => {
   gameScreen.style.display = null;
   startScreen.style.display = 'none';
-  saySomething(`Hi, ${playerName}. Have a good game`);
+  setUpUser(playerName);
+  saySomething(PHRASES.HELLO);
 };
 
 init();
