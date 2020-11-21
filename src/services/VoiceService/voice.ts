@@ -4,6 +4,11 @@ export const initVoiceService = async () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
+      if (!VOICE) {
+        initVoiceService().then(resolve);
+        return;
+      }
+      console.log('voice init');
       resolve(true);
     }, 500);
   });
