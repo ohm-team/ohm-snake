@@ -25,16 +25,16 @@ export const PHRASES = [
   'Yummy, want a bite, %username%?',
   'I enjoy spending time with you, %username%',
   'Where have you been my whole life, %username%?',
-];
+].sort(() => 0.5 - Math.random());
 
 let userName = '';
-
+let phraseIndex = 0;
 export const setUpUser = (name: string) => {
   userName = name;
 };
 
 export const randomPhrase = () => {
-  return PHRASES[Math.floor(Math.random() * PHRASES.length)];
+  return PHRASES[phraseIndex++ % PHRASES.length];
 };
 
 export const saySomething = (text: string) => {
