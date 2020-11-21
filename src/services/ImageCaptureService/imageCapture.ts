@@ -1,4 +1,4 @@
-import 'image-capture';
+import './capturePolyfill';
 import './bitmapPolyfill.ts';
 
 let imageCapture;
