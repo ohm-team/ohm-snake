@@ -12,7 +12,7 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  return Promise.all([initImageCapture(), initVoiceService()]).then(() => {
+  return Promise.all([initImageCapture(), initVoiceService(), initHeadControl()]).then(() => {
     preloader.hide();
     startScreen.show();
   });
@@ -47,10 +47,6 @@ const startGame = async (playerName: string) => {
     alert(e);
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  initHeadControl();
-});
 
 window.onload = async () => {
   enableMobileConsole();

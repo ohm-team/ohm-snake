@@ -9,6 +9,7 @@ interface HeadControlServiceSettings {
   headMovementStartedTreshold: number;
   /** from 0 to 1 */
   headMovementStoppedTreshold: number;
+  onReady?: () => void;
 }
 
 type DetectState = {
@@ -80,6 +81,7 @@ class HeadControlService extends EventTarget {
 
         this.initHeadSearchDraw();
         this.state.isLoaded = true;
+        settings.onReady && settings.onReady();
       },
       // called at each render iteration (drawing loop):
       callbackTrack: (detectState: DetectState) => {
