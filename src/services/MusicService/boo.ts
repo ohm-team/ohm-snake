@@ -1,7 +1,3 @@
-const AudioContext =
-  window.AudioContext || // Default
-  (window as any).webkitAudioContext; // Safari and old versions of Chrome
-
 export default () => {
   const audioCtx = init();
   const limit = () => setTimeout(() => audioCtx.suspend(), 750);
@@ -17,8 +13,10 @@ export default () => {
 };
 
 function init() {
+  const AudioContextInstance = window.AudioContext || (window as any).webkitAudioContext;
+
   // @ts-ignore
-  const audioCtx = new (AudioContext || webkitAudioContext)();
+  const audioCtx = new AudioContextInstance();
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 
