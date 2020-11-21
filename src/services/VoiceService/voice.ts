@@ -5,7 +5,7 @@ export const initVoiceService = async ({ isDebug }: { isDebug: boolean }) => {
     setTimeout(() => {
       VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
       if (!VOICE) {
-        initVoiceService().then(resolve);
+        initVoiceService({ isDebug }).then(resolve);
         return;
       }
       if (isDebug) {
