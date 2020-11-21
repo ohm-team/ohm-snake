@@ -3,7 +3,7 @@ import './declare';
 import './game';
 import { startSnakeGame } from './game';
 import { initHeadControl, MOVEMENT } from './services/HeadControlService';
-import { initImageCapture } from './services/ImageCaptureService/imageCapture';
+import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
 
@@ -39,6 +39,12 @@ const initAllAPI = async () => {
 };
 
 const initApp = async () => {
+  $('#faceButton').click(async () => {
+    console.log('poto ebla');
+    gameScreen.show();
+    startScreen.hide();
+    await takePhoto();
+  });
   preloader.show();
   gameScreen.hide();
   startScreen.hide();
@@ -63,8 +69,8 @@ const startGame = async (playerName: string) => {
     startScreen.hide();
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
-    startSnakeGame();
-    //await takePhoto();
+    //startSnakeGame();
+    await takePhoto();
   } catch (e) {
     console.log(e);
     alert(e);
