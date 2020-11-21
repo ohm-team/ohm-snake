@@ -21,15 +21,22 @@ interface HeadControlServiceSettings {
 }
 
 type DetectState = {
+  /** the face detection probability, between 0 and 1 */
   detected: number;
+  /** The 2D coordinates of the center of the detection frame in the viewport, from left to right, between -1 and 1 */
   x: number;
+  /** The 2D coordinates of the center of the detection frame in the viewport, from bottom to top, between -1 and 1 */
   y: number;
+  /** the scale along the horizontal axis of the detection frame, between 0 and 1 (1 for the full width). The detection frame is always square. */
   s: number;
+  /** the Euler angles of the head rotation in radians. */
   rx: number;
+  /** the Euler angles of the head rotation in radians. */
   ry: number;
-  expressions: {
-    [key: number]: number;
-  };
+  /** the Euler angles of the head rotation in radians. */
+  rz: number;
+  /** array listing the facial expression coefficients. expressions[0]: mouth opening coefficient (0 → mouth closed, 1 → mouth fully opened). */
+  expressions: number[];
 };
 
 const defaultSettings: HeadControlServiceSettings = {
@@ -109,7 +116,7 @@ class HeadControlService extends EventTarget {
     window.JEEFACEFILTERAPI.init({
       canvasId: canvasId,
       NNCPath: './vendor/',
-      animateDelay: 2, //avoid DOM lags
+      animateDelay: 20, //avoid DOM lags
       callbackReady: (errCode, jeeFaceFilterObj) => {
         if (errCode) {
           console.error('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
@@ -155,7 +162,7 @@ class HeadControlService extends EventTarget {
   }
 
   private handleMouseOpening = (detectState: DetectState) => {
-    if (detectState.ry < -3 || detectState.ry > 3) {
+    if (detectState.ry < -1 || detectState.ry > 1) {
       // Head should be in the center position
       return;
     }
@@ -341,6 +348,7 @@ declare global {
       init: (settings: {
         canvasId: string;
         NNCPath: string;
+        /**  It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in PACMAN or EARTH NAVIGATION demos) you should set a small animateDelay value (for example 2 milliseconds) in order to avoid rendering lags. */
         animateDelay: number;
         callbackReady: (errCode: string, jeeFaceFilterObj) => void;
         callbackTrack: (detectState: DetectState) => void;
