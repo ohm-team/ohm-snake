@@ -10,7 +10,10 @@ export const takePhoto = async () => {
   }
   await imageCapture
     .takePhoto()
-    .then((blob) => createImageBitmap(blob))
+    .then((blob) => {
+      console.log(blob);
+      return createImageBitmap(blob);
+    })
     .then((imageBitmap) => {
       const canvas: HTMLCanvasElement = document.querySelector('#takePhotoCanvas');
       canvas.style.display = 'block';
