@@ -1,5 +1,5 @@
 import { startSnakeGame } from './game';
-import { enableControls, Movement } from './services/HeadControlService';
+import { disableControls, enableControls, Movement } from './services/HeadControlService';
 import { makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { playBoo, stopMusic, playGameOver } from './services/MusicService';
 import { listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
@@ -15,6 +15,10 @@ const generateGif = async () => {
 const onFood = () => {
   saySomething(randomPhrase());
 };
+
+$('#console').click(() => {
+  endGame();
+});
 
 export const startGameController = async (playerName: string, { isDebug }: { isDebug: boolean }) => {
   try {
@@ -71,6 +75,7 @@ const endGame = () => {
   $('#replay').click(() => {
     window.location.reload();
   });
+  disableControls();
   makeGif();
   stopMusic();
   playGameOver();
