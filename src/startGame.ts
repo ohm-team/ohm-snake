@@ -3,7 +3,7 @@ import { enableControls, Movement } from './services/HeadControlService';
 import { makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { playBoo, stopMusic, playGameOver } from './services/MusicService';
 import { listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
-import { HELLO_PHRASE, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
+import { HELLO_PHRASE, PHRASES, randomPhrase, saySomething, setUpUser } from './services/VoiceService/voice';
 
 const delay = (ms = 1000) => new Promise((r) => setTimeout(r, ms));
 
@@ -12,12 +12,16 @@ const generateGif = async () => {
   await makeGif();
 };
 
+const onFood = () => {
+  saySomething(randomPhrase());
+};
+
 export const startGameController = async (playerName: string) => {
   try {
     setUpUser(playerName);
     saySomething(HELLO_PHRASE);
 
-    const { turnLeft, turnRight } = startSnakeGame(endGame);
+    const { turnLeft, turnRight } = startSnakeGame(endGame, onFood);
     const handleMovement = (movement: Movement) => {
       takePhoto();
       if (movement === 'left') {

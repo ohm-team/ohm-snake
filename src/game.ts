@@ -36,8 +36,8 @@ var keys = {
   32: 'pause', // spacebar
 };
 
-export const startSnakeGame = (onGamaOver): GameEvents => {
-  const events = init(onGamaOver);
+export const startSnakeGame = (onGamaOver, onFood): GameEvents => {
+  const events = init(onGamaOver, onFood);
   animate();
   return events;
 };
@@ -115,7 +115,7 @@ const createLights = (scene: THREE.Scene) => {
   // tjs_scene.add(lightCube)
 };
 
-function init(onGamaOver): GameEvents {
+function init(onGamaOver, onFood: Function = () => {}): GameEvents {
   var canvas: HTMLCanvasElement = document.getElementById('snakeCanvas') as HTMLCanvasElement;
 
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
@@ -134,7 +134,7 @@ function init(onGamaOver): GameEvents {
   snake.render();
 
   snake.onTagCollision = function () {
-    // KATYA
+    onFood();
     scene.remove(tag);
     tag = addTagToScene(randomAxis(), unitSize, randomAxis());
     // setScore();
