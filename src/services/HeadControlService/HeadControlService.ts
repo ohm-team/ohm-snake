@@ -5,61 +5,36 @@ interface HeadControlServiceSettings {
   mouseOpeningTreshold: number;
   /** from 0 to 1 */
   mouseClosingTreshold: number;
-  disableRestPosition: boolean;
-  detectionThreshold: number;
-  detectionHysteresis: number;
-  tol: {
-    rx: number;
-    ry: number;
-    s: number;
-  };
-  sensibility: {
-    rx: number;
-    ry: number;
-    s: number;
-  };
+  /** from 0 to 1 */
+  headMovementStartedTreshold: number;
+  /** from 0 to 1 */
+  headMovementStoppedTreshold: number;
 }
 
 type DetectState = {
+  /** the face detection probability, between 0 and 1 */
   detected: number;
+  /** The 2D coordinates of the center of the detection frame in the viewport, from left to right, between -1 and 1 */
   x: number;
+  /** The 2D coordinates of the center of the detection frame in the viewport, from bottom to top, between -1 and 1 */
   y: number;
+  /** the scale along the horizontal axis of the detection frame, between 0 and 1 (1 for the full width). The detection frame is always square. */
   s: number;
+  /** the Euler angles of the head rotation in radians. */
   rx: number;
+  /** the Euler angles of the head rotation in radians. */
   ry: number;
-  expressions: {
-    [key: number]: number;
-  };
+  /** the Euler angles of the head rotation in radians. */
+  rz: number;
+  /** array listing the facial expression coefficients. expressions[0]: mouth opening coefficient (0 → mouth closed, 1 → mouth fully opened). */
+  expressions: number[];
 };
 
 const defaultSettings: HeadControlServiceSettings = {
-  mouseOpeningTreshold: 0.7,
-  mouseClosingTreshold: 0.4,
-  disableRestPosition: false,
-  /** sensibility, between 0 and 1. Less -> more sensitive */
-  detectionThreshold: 0.85,
-  detectionHysteresis: 0.05,
-  tol: {
-    /** do not move if head turn more than this value (in degrees) from head rest position */
-    rx: 5,
-    ry: 5,
-    /** do not move forward/backward if head is larger/smaller than this percent from the rest position */
-    s: 5,
-  },
-  sensibility: {
-    rx: 1,
-    ry: 1,
-    s: 1,
-  },
-};
-
-type Movement = {
-  dRy: number;
-  dRx: number;
-  dZ: number;
-  expressions: {
-    [key: number]: number;
-  };
+  mouseOpeningTreshold: 0.6,
+  mouseClosingTreshold: 0.5,
+  headMovementStartedTreshold: 0.15,
+  headMovementStoppedTreshold: 0.08,
 };
 
 class HeadControlService extends EventTarget {
@@ -70,26 +45,13 @@ class HeadControlService extends EventTarget {
   };
 
   private settings: HeadControlServiceSettings;
-  private returnValue = {
-    dRx: 0,
-    dRy: 0,
-    dZ: 0,
-  };
 
   private state = {
     isLoaded: false,
     isDetected: false,
     isEnabled: false,
-    restHeadPosition: {
-      // position of the head matching with No Move
-      needsUpdate: false,
-      s: 0,
-      rx: 0,
-      ry: 0,
-    },
   };
 
-  private lastTimestamp = 0;
   private gl = null;
   private cv = null;
   private videoTexture = null;
@@ -97,19 +59,15 @@ class HeadControlService extends EventTarget {
   private glHeadSearchDrawShaderProgram = null;
   private headSearchUniformXys = null;
   private headSearchUniformVideoTransformMat2 = null;
-  private disableRestPosition = false;
 
   constructor(canvasId: string, settings: Partial<HeadControlServiceSettings>) {
     super();
     this.settings = { ...defaultSettings, ...settings };
-    this.settings.tol.rx *= Math.PI / 180; // convert from degrees to radians
-    this.settings.tol.ry *= Math.PI / 180;
-    this.settings.tol.s /= 100;
 
     window.JEEFACEFILTERAPI.init({
       canvasId: canvasId,
       NNCPath: './vendor/',
-      animateDelay: 2, //avoid DOM lags
+      animateDelay: 20, //avoid DOM lags
       callbackReady: (errCode, jeeFaceFilterObj) => {
         if (errCode) {
           console.error('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
@@ -124,38 +82,28 @@ class HeadControlService extends EventTarget {
         this.state.isLoaded = true;
       },
       // called at each render iteration (drawing loop):
-      callbackTrack: (detectState) => {
+      callbackTrack: (detectState: DetectState) => {
         if (!this.state.isEnabled) {
           return;
         }
-        const mv: Partial<Movement> = this.computeCameraMove(detectState);
-        mv.expressions = detectState.expressions;
 
-        if (mv.dRx !== 0 || mv.dRy !== 0 || mv.dZ !== 0) {
-          this.handleMove(mv as Movement);
-        }
-
+        this.drawHeadSearch(detectState);
+        this.handleMove(detectState);
         this.handleMouseOpening(detectState);
       },
     });
   }
 
-  public toggle(isEnabled: boolean) {
+  public toggle(isEnabled: boolean): boolean {
     if (this.state.isEnabled === isEnabled) {
       return true;
-    } else if (!isEnabled) {
-      //disable
-      this.state.isEnabled = false;
-      return true;
-    } else {
-      this.state.isEnabled = true;
-      this.state.restHeadPosition.needsUpdate = true;
-      return true;
     }
+    this.state.isEnabled = isEnabled;
+    return true;
   }
 
   private handleMouseOpening = (detectState: DetectState) => {
-    if (detectState.ry < -3 || detectState.ry > 3) {
+    if (detectState.ry < -1 * this.settings.headMovementStartedTreshold || detectState.ry > this.settings.headMovementStartedTreshold) {
       // Head should be in the center position
       return;
     }
@@ -173,12 +121,12 @@ class HeadControlService extends EventTarget {
     }
   };
 
-  private handleMove = (mv: Movement) => {
-    if (mv.dRx !== 0) {
-      this.handleAxisMovement({ axis: 'vertical', axisPosition: mv.dRx, maxValue: 'down', minValue: 'up' });
+  private handleMove = (mv: DetectState) => {
+    if (mv.rx !== 0) {
+      this.handleAxisMovement({ axis: 'vertical', axisPosition: mv.rx, maxValue: 'down', minValue: 'up' });
     }
-    if (mv.dRy !== 0) {
-      this.handleAxisMovement({ axis: 'horizontal', axisPosition: mv.dRy, maxValue: 'left', minValue: 'right' });
+    if (mv.ry !== 0) {
+      this.handleAxisMovement({ axis: 'horizontal', axisPosition: mv.ry, maxValue: 'left', minValue: 'right' });
     }
   };
 
@@ -193,28 +141,21 @@ class HeadControlService extends EventTarget {
     maxValue: EVENT_NAME;
     minValue: EVENT_NAME;
   }) => {
-    if (axisPosition < -10 && !this.movementLocks[axis]) {
+    if (axisPosition < -1 * this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;
       this.dispatchEvent(new Event(minValue));
       return;
     }
-    if (axisPosition > 10 && !this.movementLocks[axis]) {
+    if (axisPosition > this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;
       this.dispatchEvent(new Event(maxValue));
       return;
     }
-    if (axisPosition > -5 && axisPosition < 5) {
+    if (axisPosition > -1 * this.settings.headMovementStoppedTreshold && axisPosition < this.settings.headMovementStoppedTreshold) {
       this.movementLocks[axis] = false;
       return;
     }
   };
-
-  private computeDelta(ref, val, tol, sensibility) {
-    if (Math.abs(ref - val) < tol) {
-      return 0;
-    }
-    return (val - ref) * sensibility;
-  }
 
   private compileShader(source, glType, typeString) {
     const glShader = this.gl.createShader(glType);
@@ -293,46 +234,6 @@ class HeadControlService extends EventTarget {
     // fill the viewPort:
     this.gl.drawElements(this.gl.TRIANGLES, 3, this.gl.UNSIGNED_SHORT, 0);
   }
-
-  private computeCameraMove(detectState: DetectState) {
-    if (this.state.isDetected && detectState.detected < this.settings.detectionThreshold - this.settings.detectionHysteresis) {
-      // DETECTION LOST
-
-      this.state.isDetected = false;
-      this.returnValue.dRx = 0;
-      this.returnValue.dRy = 0;
-      this.returnValue.dZ = 0;
-    } else if (!this.state.isDetected && detectState.detected - this.settings.detectionThreshold + this.settings.detectionHysteresis) {
-      // FACE DETECTED
-      this.state.isDetected = true;
-    }
-
-    if (this.state.isEnabled) {
-      this.drawHeadSearch(detectState);
-    }
-
-    if (!this.state.isEnabled || !this.state.isDetected || !this.state.isLoaded) {
-      return this.returnValue; // no camera move
-    }
-
-    if (this.state.restHeadPosition.needsUpdate && !this.disableRestPosition) {
-      this.state.restHeadPosition.needsUpdate = false;
-      this.state.restHeadPosition.rx = detectState.rx;
-      this.state.restHeadPosition.ry = detectState.ry;
-      this.state.restHeadPosition.s = detectState.s;
-      this.lastTimestamp = Date.now();
-    }
-
-    // compute movement of the camera
-    const ts = Date.now();
-    const dt = ts - this.lastTimestamp;
-    this.returnValue.dRx = dt * this.computeDelta(this.state.restHeadPosition.rx, detectState.rx, this.settings.tol.rx, this.settings.sensibility.rx);
-    this.returnValue.dRy = dt * this.computeDelta(this.state.restHeadPosition.ry, detectState.ry, this.settings.tol.ry, this.settings.sensibility.ry);
-    this.returnValue.dZ = dt * this.computeDelta(this.state.restHeadPosition.s, detectState.s, this.settings.tol.s, this.settings.sensibility.s);
-
-    this.lastTimestamp = ts;
-    return this.returnValue;
-  }
 }
 
 declare global {
@@ -341,6 +242,7 @@ declare global {
       init: (settings: {
         canvasId: string;
         NNCPath: string;
+        /**  It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in PACMAN or EARTH NAVIGATION demos) you should set a small animateDelay value (for example 2 milliseconds) in order to avoid rendering lags. */
         animateDelay: number;
         callbackReady: (errCode: string, jeeFaceFilterObj) => void;
         callbackTrack: (detectState: DetectState) => void;
