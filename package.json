@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/ohm-team/ohm-snake#readme",
   "devDependencies": {
+    "@types/jquery": "^3.5.4",
     "@types/w3c-image-capture": "^1.0.2",
     "css-loader": "^5.0.1",
     "html-webpack-plugin": "^4.5.0",
@@ -45,7 +46,6 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
-    "@types/jquery": "^3.5.4",
     "console-subscriber": "^1.0.2",
     "three": "^0.122.0"
   }
