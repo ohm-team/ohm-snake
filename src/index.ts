@@ -2,7 +2,7 @@ import { enableMobileConsole } from './console';
 import './declare';
 import './game';
 import { startSnakeGame } from './game';
-import { MOVEMENT } from './services/HeadControlService';
+import { initHeadControl, MOVEMENT } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
@@ -35,10 +35,10 @@ const initAllAPI = async () => {
   return Promise.all([
     initImageCapture(),
     initVoiceService(),
-    //initHeadControl({
-    //  onMovement: handleMovement,
-    //  onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
-    //}),
+    initHeadControl({
+      onMovement: handleMovement,
+      onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
+    }),
     initVisibilityService({
       onVisibilityChange: handleVisibilityChange,
     }),
