@@ -1,9 +1,10 @@
 // @ts-ignore
 const url = `${BASE_DIR}/audio/monsterslap.mp3`;
-console.log({ url });
+
 export default async function init() {
   // @ts-ignore
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
   const audio = await fetchTrack(ctx, url);
   let source: AudioBufferSourceNode;
   let lastStop = 0;
@@ -44,7 +45,12 @@ async function fetchTrack(ctx: AudioContext, src: RequestInfo) {
 const connectAudio = (ctx: AudioContext, audio: AudioBuffer) => {
   const source = ctx.createBufferSource();
   source.buffer = audio;
-  source.connect(ctx.destination);
+
+  const gainNode = ctx.createGain();
+  gainNode.gain.value = 0.25;
+
+  source.connect(gainNode);
+  gainNode.connect(ctx.destination);
   source.loop = true;
   return source;
 };
