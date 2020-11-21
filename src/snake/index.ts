@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 import { DEGTORAD, findPointByDistance } from './utils';
 
+const snakeSpeeds = [0.011, 0.0125, 0.015, 0.016, 0.0165, 0.017, 0.018, 0.019, 0.02, 0.021, 0.022, 0.023, 0.024, 0.0245, 0.025];
+
 export function Snake(scene, size, color, cameraGoal) {
   this.snake = [];
   this.scene = scene;
@@ -10,7 +12,8 @@ export function Snake(scene, size, color, cameraGoal) {
   this.pathPoints = [[0, 0, 0]];
   this.distance = size / 4;
   this.initialSize = 4;
-  this.speed = 0.01;
+  this.speedLevel = 0;
+  this.speed = snakeSpeeds[this.speedLevel];
   this.liveTime = 0;
 
   this.cameraGoal = cameraGoal;
@@ -58,7 +61,7 @@ Snake.prototype = {
     this.clear();
   },
   tagCollision: function () {
-    this.speed = this.speed * 1.25;
+    this.speed = snakeSpeeds[this.speedLevel++] || snakeSpeeds[snakeSpeeds.length - 1];
     console.log('speed', this.speed);
     this.onTagCollision();
     this.addCube();
