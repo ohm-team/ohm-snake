@@ -70,8 +70,8 @@ const startGame = async (playerName: string) => {
     startScreen.hide();
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
-    //startSnakeGame();
-    await takePhoto();
+    startSnakeGame();
+    // await takePhoto();
   } catch (e) {
     console.log(e);
     alert(e);
