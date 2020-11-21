@@ -5,7 +5,7 @@ export { default } from './HeadControlService';
 export const initHeadControl = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     const headControlService = new HeadControlService('head-preview', {
-      onReady: resolve,
+      onReady: () => resolve(),
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     });
     headControlService.toggle(true);
