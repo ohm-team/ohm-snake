@@ -51,21 +51,57 @@ body {
 .snake-canvas {
   display: block;
 }
-
+$bg: #74ffb0;
 #gifContainer {
-
+  height: 300px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  
+  .text {
+    font-family: 'Rubik', sans-serif;
+    position: absolute;
+    width: 300px;
+    top: -35px;
+    lefT: -100%;
+    text-align: center;
+  }
+  
+  
+  img {
+    position: relative;
+  }
 }
 
 .title-gameover {
-    margin-top: -60px;
-    margin-bottom: 10px;
+  margin-top: -60px;
+  margin-bottom: 10px;
 }
 
 .replay {
-  width: 50px;
-  height: 50px;
-  svg {
-    width: 50px;
-    height: 50px;
-  }
+  margin-top: 20px;
+  font-family: 'Rubik', sans-serif;
+}
+
+
+.replay {
+  
+  $top-pad : 6px;
+  $side-pad : 15px;
+  $border-size :2px;
+  
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  padding: 6px 15px;
+  font-size: 1.2em;
+  background: none;
+  color: black;
+  border: 2px solid black;
+  box-shadow: 0 0 0 $border-size #74ffb0, 0 0 0 ($border-size *2) black;
+  transition: all 0.2s ease-in-out;
+  will-change: box-shadow, margin, padding;
+  cursor: pointer;
+  
 }

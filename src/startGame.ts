@@ -13,36 +13,37 @@ const generateGif = async () => {
 };
 
 export const startGameController = async (playerName: string) => {
-  try {
-    setUpUser(playerName);
-    saySomething(PHRASES.HELLO);
-
-    const { turnLeft, turnRight } = startSnakeGame(endGame);
-    const handleMovement = (movement: Movement) => {
-      takePhoto();
-      if (movement === 'left') {
-        turnLeft();
-        playBoo();
-      }
-      if (movement === 'right') {
-        turnRight();
-        playBoo();
-      }
-    };
-    enableControls({ onMovement: handleMovement });
-    const handleVisibilityChange = (visibilityState: VisibilityState) => {
-      if (visibilityState === 'visible') {
-        console.log('unpause!');
-        return;
-      }
-      console.log('pause!');
-      return;
-    };
-    listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
-  } catch (e) {
-    console.error(e);
-    alert(e);
-  }
+  endGame();
+  //try {
+  //  setUpUser(playerName);
+  //  saySomething(PHRASES.HELLO);
+  //
+  //  const { turnLeft, turnRight } = startSnakeGame(endGame);
+  //  const handleMovement = (movement: Movement) => {
+  //    takePhoto();
+  //    if (movement === 'left') {
+  //      turnLeft();
+  //      playBoo();
+  //    }
+  //    if (movement === 'right') {
+  //      turnRight();
+  //      playBoo();
+  //    }
+  //  };
+  //  enableControls({ onMovement: handleMovement });
+  //  const handleVisibilityChange = (visibilityState: VisibilityState) => {
+  //    if (visibilityState === 'visible') {
+  //      console.log('unpause!');
+  //      return;
+  //    }
+  //    console.log('pause!');
+  //    return;
+  //  };
+  //  listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
+  //} catch (e) {
+  //  console.error(e);
+  //  alert(e);
+  //}
 };
 
 const endGame = () => {

@@ -13,6 +13,7 @@ export const initVoiceService = async () => {
     }, 500);
   });
 };
+
 export const PHRASES = {
   HELLO: '`Hi, %username%. Have a good game',
   RIGHT: 'Good right turn, %username%',

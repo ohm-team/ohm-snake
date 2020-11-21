@@ -92,3 +92,85 @@
   }
 }
 
+
+$full: 90px; //the full width of the loader
+$single: 30px; //the width of a single block
+$double: 60px; //the width of 2 blocks
+$element: #15311e; //the little blocks background color
+$bg: #74ffb0; //the body background color
+$border: 0px; //the little element border width
+$opacity: 0.2; //the starting state of the little blocks animation
+
+
+.pixel-loader {
+  width: $full;
+  height: $full;
+  position: absolute;
+  .loader-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    opacity: $opacity;
+    border: $border solid $element;
+    width: $single;
+    height: $single;
+    background: $element;
+    animation: show 1s infinite alternate;
+  }
+  
+  .loader-block:nth-child(1) {
+    transform: translate(0, 0);
+    animation-delay: 0.1s;
+  }
+  
+  .loader-block:nth-child(2) {
+    transform: translate($single, 0);
+    animation-delay: 0.2s;
+  }
+  
+  .loader-block:nth-child(3) {
+    transform: translate($double, 0);
+    animation-delay: 0.3s;
+  }
+  
+  .loader-block:nth-child(4) {
+    transform: translate(0, $single);
+    animation-delay: 0.4s;
+  }
+  
+  .loader-block:nth-child(5) {
+    transform: translate($single, $single);
+    animation-delay: 0.5s;
+  }
+  
+  .loader-block:nth-child(6) {
+    transform: translate($double, $single);
+    animation-delay: 0.6s;
+  }
+  
+  .loader-block:nth-child(7) {
+    transform: translate(0, $double);
+    animation-delay: 0.7s;
+  }
+  
+  .loader-block:nth-child(8) {
+    transform: translate($single, $double);
+    animation-delay: 0.8s;
+  }
+  
+  .loader-block:nth-child(9) {
+    transform: translate($double, $double);
+    animation-delay: 0.9s;
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: $opacity;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
