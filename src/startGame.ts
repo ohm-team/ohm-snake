@@ -1,7 +1,7 @@
 import { startSnakeGame } from './game';
 import { enableControls, Movement } from './services/HeadControlService';
 import { makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
-import { playBoo } from './services/MusicService';
+import { playBoo, stopMusic, playGameOver } from './services/MusicService';
 import { listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
 import { PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 
@@ -55,4 +55,6 @@ const endGame = () => {
     window.location.reload();
   });
   makeGif();
+  stopMusic();
+  playGameOver();
 };
