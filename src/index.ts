@@ -70,6 +70,6 @@ const startGame = async (playerName: string) => {
 
 window.onload = async () => {
   enableMobileConsole();
-  //   startSnakeGame();
+  // startGame('Goooseman');
   await initApp();
 };
