@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { Snake } from './snake';
-import FBXLoader from 'three-fbx-loader';
 
 interface GameEvents {
   turnLeft: () => void;
@@ -52,25 +51,61 @@ function addTagToScene(x, y, z) {
   const food = new THREE.Mesh(
     collider,
     new THREE.MeshBasicMaterial({
-      opacity: 1,
-      transparent: false,
+      opacity: 0,
+      transparent: true,
     })
   );
+  food.name = `Food`;
   var foodGroup = new THREE.Group();
-  const loader = new FBXLoader();
-  loader.load('./models/fruit.fbx', function (object) {
+  foodGroup.rotateY(Math.PI / 2);
+  // @ts-ignore
+  const loader = new THREE.FBXLoader();
+  loader.load('./models/fruit.fbx', function (object: THREE.Group) {
+    object.name = `FoodFBX`;
+    object.scale.set(0.1, 0.1, 0.1);
+    // @ts-ignore
     object.children[2].material = new THREE.MeshLambertMaterial({
       color: 0x5c0b0d,
     });
-    scene.add(object);
+    foodGroup.add(object);
   });
-  food.fbx = foodGroup;
   food.add(foodGroup);
   food.position.set(x, y, z);
   scene.add(food);
   snake.setCurrentTagPosition({ x: x, y: y, z: z });
-  return foodGroup;
+  return food;
 }
+
+const createLights = (scene: THREE.Scene) => {
+  let light = undefined;
+
+  light = new THREE.HemisphereLight(0xaaaaaa, 0x444444, 0.7);
+  light.position.set(0, -1, 0);
+  scene.add(light);
+
+  light = new THREE.DirectionalLight(0xf2d97e, 2);
+  scene.add(light);
+
+  light = new THREE.DirectionalLight(0xf5cea6, 0.8);
+  light.position.set(0, 0, 1);
+  scene.add(light);
+
+  light = new THREE.DirectionalLight(0xf5cea6, 0.3);
+  light.position.set(0, 0, -1);
+  scene.add(light);
+
+  light = new THREE.DirectionalLight(0xb4d6db, 0.6);
+  light.position.set(-1, 0, 0);
+  scene.add(light);
+
+  light = new THREE.DirectionalLight(0xb4d6db, 0.6);
+  light.position.set(1, 0, 0);
+  scene.add(light);
+
+  // // Turn this on for light testing
+  // let lightCube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0xFFFFFF }))
+  // tjs_scene.add(lightCube)
+};
 
 function init(onGamaOver): GameEvents {
   var canvas: HTMLCanvasElement = document.getElementById('snakeCanvas') as HTMLCanvasElement;
@@ -79,6 +114,7 @@ function init(onGamaOver): GameEvents {
   camera.position.set(0, 2, -2);
 
   scene = new THREE.Scene();
+  createLights(scene);
   camera.lookAt(scene.position);
 
   // var geometry = new THREE.BoxBufferGeometry( 0.2, 0.2, 0.2 );
