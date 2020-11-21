@@ -14,7 +14,7 @@ export default () => {
 
 function init() {
   // @ts-ignore
-  const audioCtx = new (AudioContext || webkitAudioContext)();
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 

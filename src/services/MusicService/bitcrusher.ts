@@ -1,6 +1,6 @@
 export default function bitcrusher() {
   //@ts-ignore
-  var audioContext = new (AudioContext || webkitAudioContext)();
+  var audioContext = new (window.AudioContext || window.webkitAudioContext)();
   var masterGain = audioContext.createGain();
   masterGain.gain.value = 0.1;
   masterGain.connect(audioContext.destination);

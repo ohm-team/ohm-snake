@@ -3,7 +3,7 @@ const url = `${BASE_DIR}/audio/monsterslap.mp3`;
 console.log({ url });
 export default async function init() {
   // @ts-ignore
-  const ctx = new (AudioContext || webkitAudioContext)();
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const audio = await fetchTrack(ctx, url);
   let source: AudioBufferSourceNode;
   let lastStop = 0;
