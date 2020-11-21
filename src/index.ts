@@ -34,7 +34,7 @@ const initAllAPI = async () => {
 
   return Promise.all([
     initImageCapture(),
-    //initVoiceService(),
+    initVoiceService(),
     initHeadControl({
       onMovement: handleMovement,
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
