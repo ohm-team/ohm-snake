@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Snake } from './snake';
+import FBXLoader from 'three-fbx-loader';
 
 interface GameEvents {
   turnLeft: () => void;
@@ -47,15 +48,28 @@ function randomAxis() {
 }
 
 function addTagToScene(x, y, z) {
-  var geometry = new THREE.BoxGeometry(unitSize, unitSize, unitSize);
-  // var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-  var material = new THREE.MeshNormalMaterial();
-  // MeshNormalMaterial
-  var sphere = new THREE.Mesh(geometry, material);
-  sphere.position.set(x, y, z);
-  scene.add(sphere);
+  const collider = new THREE.BoxBufferGeometry(unitSize, unitSize, unitSize);
+  const food = new THREE.Mesh(
+    collider,
+    new THREE.MeshBasicMaterial({
+      opacity: 1,
+      transparent: false,
+    })
+  );
+  var foodGroup = new THREE.Group();
+  const loader = new FBXLoader();
+  loader.load('./models/fruit.fbx', function (object) {
+    object.children[2].material = new THREE.MeshLambertMaterial({
+      color: 0x5c0b0d,
+    });
+    scene.add(object);
+  });
+  food.fbx = foodGroup;
+  food.add(foodGroup);
+  food.position.set(x, y, z);
+  scene.add(food);
   snake.setCurrentTagPosition({ x: x, y: y, z: z });
-  return sphere;
+  return foodGroup;
 }
 
 function init(): GameEvents {
