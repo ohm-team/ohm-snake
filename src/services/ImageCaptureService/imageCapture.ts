@@ -6,11 +6,15 @@ let isInit = false;
 
 export const takePhoto = async () => {
   if (!imageCapture) {
+    console.log('no image capture');
     return;
   }
   await imageCapture
     .takePhoto()
-    .then((blob) => createImageBitmap(blob))
+    .then((blob) => {
+      console.log(blob);
+      return createImageBitmap(blob);
+    })
     .then((imageBitmap) => {
       const canvas: HTMLCanvasElement = document.querySelector('#takePhotoCanvas');
       canvas.style.display = 'block';
@@ -23,6 +27,9 @@ export const takePhoto = async () => {
       //    throw e;
       //  }
       //});
+    })
+    .catch((e) => {
+      console.log(e);
     });
 };
 
