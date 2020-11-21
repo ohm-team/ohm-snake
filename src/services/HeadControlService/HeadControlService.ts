@@ -1,4 +1,4 @@
-type EVENT_NAME = 'up' | 'down' | 'left' | 'right' | 'mouse opened' | 'mouse closed';
+export type MOVEMENT = 'up' | 'down' | 'left' | 'right' | 'mouse opened' | 'mouse closed';
 
 type ERROR_CODE =
   | 'GL_INCOMPATIBLE'
@@ -21,6 +21,7 @@ interface HeadControlServiceSettings {
   headMovementStoppedTreshold: number;
   onReady?: () => void;
   onCameraPersmissionFailed?: () => void;
+  onError?: (err: Error) => void;
 }
 
 type DetectState = {
@@ -86,7 +87,7 @@ class HeadControlService extends EventTarget {
             settings.onCameraPersmissionFailed && settings.onCameraPersmissionFailed();
             return;
           }
-          console.error('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
+          settings.onError(new Error(errCode));
           return;
         }
         this.gl = jeeFaceFilterObj['GL'];
@@ -155,8 +156,8 @@ class HeadControlService extends EventTarget {
   }: {
     axis: 'horizontal' | 'vertical';
     axisPosition: number;
-    maxValue: EVENT_NAME;
-    minValue: EVENT_NAME;
+    maxValue: MOVEMENT;
+    minValue: MOVEMENT;
   }) => {
     if (axisPosition < -1 * this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;

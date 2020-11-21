@@ -1,20 +1,27 @@
-import HeadControlService from './HeadControlService';
+import HeadControlService, { MOVEMENT } from './HeadControlService';
 
 export { default } from './HeadControlService';
 
-export const initHeadControl = (): Promise<void> => {
+export type { MOVEMENT };
+export const initHeadControl = ({
+  onMovement,
+  onCameraPersmissionFailed,
+}: {
+  onMovement: (movement: MOVEMENT) => void;
+  onCameraPersmissionFailed: () => void;
+}): Promise<void> => {
   return new Promise((resolve, reject) => {
     const headControlService = new HeadControlService('head-preview', {
-      onReady: () => {
-        console.log('head control is ready');
-        resolve();
-      },
-      onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
+      onReady: resolve,
+      onCameraPersmissionFailed: onCameraPersmissionFailed,
+      onError: reject,
     });
     headControlService.toggle(true);
-    headControlService.addEventListener('mouse opened', () => console.log('mouse opened'));
-    headControlService.addEventListener('mouse closed', () => console.log('mouse closed'));
-    headControlService.addEventListener('left', () => console.log('left'));
-    headControlService.addEventListener('right', () => console.log('right'));
+    headControlService.addEventListener('mouse opened', () => onMovement('mouse opened'));
+    headControlService.addEventListener('mouse closed', () => onMovement('mouse closed'));
+    headControlService.addEventListener('left', () => onMovement('left'));
+    headControlService.addEventListener('right', () => onMovement('right'));
+    headControlService.addEventListener('up', () => onMovement('up'));
+    headControlService.addEventListener('down', () => onMovement('down'));
   });
 };

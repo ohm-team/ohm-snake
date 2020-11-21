@@ -1,5 +1,5 @@
 import { enableMobileConsole } from './console';
-import { initHeadControl } from './services/HeadControlService';
+import { initHeadControl, MOVEMENT } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './declare';
@@ -12,7 +12,21 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  return Promise.all([initImageCapture(), initVoiceService(), initHeadControl()])
+  const handleMovement = (movement: MOVEMENT) => {
+    if (movement === 'up' || movement === 'down') {
+      // ignore up and down
+      return;
+    }
+    console.log(movement);
+  };
+  return Promise.all([
+    initImageCapture(),
+    initVoiceService(),
+    initHeadControl({
+      onMovement: handleMovement,
+      onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
+    }),
+  ])
     .then(() => {
       preloader.hide();
       startScreen.show();
