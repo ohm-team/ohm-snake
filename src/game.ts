@@ -25,7 +25,7 @@ var keys = {
   32: 'pause', // spacebar
 };
 
-window.onload = () => {
+export const startSnakeGame = () => {
   init();
   animate();
 };
@@ -55,6 +55,8 @@ function addTagToScene(x, y, z) {
 }
 
 function init() {
+  var canvas: HTMLCanvasElement = document.getElementById('snakeCanvas') as HTMLCanvasElement;
+
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
   camera.position.set(0, 2, -2);
 
@@ -90,7 +92,7 @@ function init() {
 
   scene.add(new THREE.AxesHelper());
 
-  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
@@ -171,6 +173,9 @@ function init() {
       // raf = win.requestAnimationFrame(triggerRenders);
     }
   }
+
+  // first default  move
+  keyActions['left'].action();
 }
 
 function animate() {
