@@ -35,13 +35,13 @@ const initAllAPI = async () => {
 };
 
 const initApp = async () => {
-  const fb = document.getElementById('faceButton');
-
-  fb.addEventListener('click', async () => {
-    console.log('photo ebla');
-    gameScreen.show();
-    startScreen.hide();
-  });
+  //const fb = document.getElementById('faceButton');
+  //
+  //fb.addEventListener('click', async () => {
+  //  console.log('photo ebla');
+  //  gameScreen.show();
+  //  startScreen.hide();
+  //});
   preloader.show();
   gameScreen.hide();
   startScreen.hide();
