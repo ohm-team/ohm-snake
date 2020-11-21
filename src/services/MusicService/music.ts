@@ -26,10 +26,10 @@ export default async function init() {
   return api;
 }
 
-async function fetchTrack(ctx: AudioContext, src: RequestInfo) {
+async function fetchTrack(ctx: AudioContext, src: RequestInfo): Promise<AudioBuffer> {
   const data = await fetch(src);
   const arrayBuffer = await data.arrayBuffer();
-  return new Promise((resolve, reject) => {
+  return new Promise<AudioBuffer>((resolve, reject) => {
     ctx.decodeAudioData(
       arrayBuffer,
       (buffer) => {

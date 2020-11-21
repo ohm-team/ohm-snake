@@ -1,9 +1,7 @@
 import * as THREE from 'three';
 import { fieldSize } from './config';
 import { getSnakeHead, getSnakeSection } from './models';
-
 import { DEGTORAD, findPointByDistance } from './utils';
-import { fieldSize } from './config';
 
 const snakeSpeeds = [0.011, 0.0125, 0.015, 0.016, 0.0165, 0.017, 0.018, 0.019, 0.02, 0.021, 0.022, 0.023, 0.024, 0.0245, 0.025];
 
