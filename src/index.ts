@@ -7,6 +7,7 @@ import { initImageCapture, takePhoto } from './services/ImageCaptureService/imag
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
 import { initVisibilityService, VISIBILITY_STATE } from './services/VisibilityService';
+import initMusicService, { playBoo, playMusic, renderDebugButtons } from './services/MusicService';
 
 const startButton = $('#startButton');
 const preloader = $('#preloader');
@@ -33,6 +34,7 @@ const initAllAPI = async () => {
     initVisibilityService({
       onVisibilityChange: handleVisibilityChange,
     }),
+    initMusicService(),
   ])
     .then(() => {
       preloader.hide();
@@ -80,12 +82,16 @@ const startGame = async (playerName: string) => {
     const handleMovement = (movement: Movement) => {
       if (movement === 'left') {
         turnLeft();
+        playBoo();
       }
       if (movement === 'right') {
         turnRight();
+        playBoo();
       }
     };
     enableControls({ onMovement: handleMovement });
+    playMusic();
+    renderDebugButtons();
     // await takePhoto();
   } catch (e) {
     console.error(e);

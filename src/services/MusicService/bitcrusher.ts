@@ -1,4 +1,5 @@
-export default function bitcrusher(audioContext) {
+export default function bitcrusher() {
+  var audioContext = new AudioContext();
   var masterGain = audioContext.createGain();
   masterGain.gain.value = 0.1;
   masterGain.connect(audioContext.destination);
