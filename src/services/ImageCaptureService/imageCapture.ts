@@ -4,6 +4,9 @@ let imageCapture;
 let isInit = false;
 
 export const takePhoto = async () => {
+  if (!imageCapture) {
+    return;
+  }
   await imageCapture
     .takePhoto()
     .then((blob) => createImageBitmap(blob))
@@ -36,11 +39,15 @@ export const initImageCapture = async () => {
   if (isInit) {
     return Promise.resolve();
   }
-
   isInit = true;
 
-  return navigator.mediaDevices.getUserMedia({ video: true }).then((mediaStream) => {
-    const track = mediaStream.getVideoTracks()[0];
-    imageCapture = new ImageCapture(track);
-  });
+  return navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then((mediaStream) => {
+      const track = mediaStream.getVideoTracks()[0];
+      imageCapture = new ImageCapture(track);
+    })
+    .catch(() => {
+      alert('Image capture is not supported on your device :(');
+    });
 };
