@@ -45,15 +45,11 @@ export const startSnakeGame = (onGamaOver, onFood): GameEvents => {
 };
 
 function randomPoint() {
-  // Generate random points between 0 and the gridSize
-  // in steps for unitSize i.e 0, 50, 350, 700, 40 etc
-  var pos = Math.floor(((Math.random() * gridSize) / 2) * 2);
-  return pos - (pos % unitSize);
-}
-
-function randomAxis() {
-  var point = randomPoint();
-  return point > gridSize ? gridSize - point - 1 : point - 1;
+  // var pos = Math.floor(((Math.random() * gridSize) / 2) * 2);
+  // return pos - (pos % unitSize);
+  let pos = Math.floor((Math.random() * fieldSize.x) / 2);
+  pos *= Math.round(Math.random()) ? 1 : -1;
+  return pos;
 }
 
 function addTagToScene(x, y, z) {
@@ -84,7 +80,7 @@ function init(onGamaOver, onFood: Function = () => {}): GameEvents {
   snake.onTagCollision = function () {
     onFood();
     scene.remove(tag);
-    tag = addTagToScene(randomAxis(), unitSize, randomAxis());
+    tag = addTagToScene(randomPoint(), unitSize / 2, randomPoint());
     // setScore();
   };
   snake.onSelfCollision = function () {
@@ -94,7 +90,7 @@ function init(onGamaOver, onFood: Function = () => {}): GameEvents {
 
   cameraGoal.position.set(0, 0.4, -0.5);
 
-  tag = addTagToScene(randomAxis(), unitSize / 2, randomAxis());
+  tag = addTagToScene(randomPoint(), unitSize / 2, randomPoint());
 
   buildField(scene, fieldSize);
 

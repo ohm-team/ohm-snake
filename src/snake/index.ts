@@ -15,6 +15,7 @@ export function Snake(scene, size, color, cameraGoal) {
   this.speedLevel = 0;
   this.speed = snakeSpeeds[this.speedLevel];
   this.liveTime = 0;
+  this.alive = true;
 
   this.cameraGoal = cameraGoal;
 
@@ -58,6 +59,7 @@ Snake.prototype = {
   selfCollision: function () {
     console.log('self collision');
     this.onSelfCollision();
+    this.alive = false;
     this.clear();
   },
   tagCollision: function () {
@@ -150,6 +152,9 @@ Snake.prototype = {
   },
   turn: function (direction) {
     // 'left' or 'right
+    if (!this.alive) {
+      return false;
+    }
 
     this.addPointToPath(this.getPositionAsVector());
 

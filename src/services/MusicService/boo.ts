@@ -24,7 +24,7 @@ function init() {
 
   oscillator.type = 'sine';
   oscillator.frequency.value = 392;
-  gainNode.gain.value = 0.1;
+  // gainNode.gain.value = 0.0;
 
   let adsr = new ADSREnvelope({
     attackTime: 0.2,
@@ -32,7 +32,7 @@ function init() {
     sustainLevel: 0.2,
     releaseTime: 0.5,
     gateTime: 0.5,
-    peakLevel: 0.5,
+    peakLevel: 0.2,
     epsilon: 0.001,
     attackCurve: 'lin',
     decayCurve: 'lin',
