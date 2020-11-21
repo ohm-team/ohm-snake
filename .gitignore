@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 
 public/*.*
+!public/audio/
 
 # IDE code custom settings
 .vscode
