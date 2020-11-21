@@ -5,11 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
   entry: {
     main: "./src/index.ts",
   },
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, './public'),
     filename: "[name].[contenthash].js"
