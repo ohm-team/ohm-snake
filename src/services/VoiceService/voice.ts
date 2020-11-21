@@ -1,9 +1,13 @@
-setTimeout(() => {
-  VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
-}, 500);
+let VOICE;
 
-let VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
-
+export const initVoiceService = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
+      resolve(true);
+    }, 500);
+  });
+};
 export const PHRASES = {
   HELLO: '`Hi, %username%. Have a good game',
   RIGHT: 'Good right turn, %username%',

@@ -3,22 +3,6 @@ import { createFile, readFile } from './fileSystem';
 let imageCapture;
 let isInit = false;
 
-// todo: show loader until everything is initialised
-const init = () => {
-  if (isInit) {
-    return;
-  }
-  isInit = true;
-
-  navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then((mediaStream) => {
-      const track = mediaStream.getVideoTracks()[0];
-      imageCapture = new ImageCapture(track);
-    })
-    .catch((error) => console.log(error));
-};
-
 export const takePhoto = async () => {
   await imageCapture
     .takePhoto()
@@ -48,4 +32,15 @@ function drawCanvas(canvas, img) {
   canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height, x, y, img.width * ratio, img.height * ratio);
 }
 
-init();
+export const initImageCapture = async () => {
+  if (isInit) {
+    return Promise.resolve();
+  }
+
+  isInit = true;
+
+  return navigator.mediaDevices.getUserMedia({ video: true }).then((mediaStream) => {
+    const track = mediaStream.getVideoTracks()[0];
+    imageCapture = new ImageCapture(track);
+  });
+};
