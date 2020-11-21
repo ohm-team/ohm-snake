@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { fieldSize } from './config';
+import { getSnakeHead, getSnakeSection } from './models';
 
 import { DEGTORAD, findPointByDistance } from './utils';
 
@@ -36,8 +38,9 @@ export function Snake(scene, size, color, cameraGoal) {
 
 Snake.prototype = {
   init: function () {
-    for (var i = 0; i < this.initialSize; i++) {
-      this.addCube();
+    this.addCube({ isHead: true });
+    for (var i = 1; i < this.initialSize; i++) {
+      this.addCube({ isHead: false });
     }
     this.setDefaultPositions();
     this.getHead().add(this.cameraGoal);
@@ -64,7 +67,7 @@ Snake.prototype = {
   tagCollision: function () {
     this.speed = snakeSpeeds[this.speedLevel++] || snakeSpeeds[snakeSpeeds.length - 1];
     this.onTagCollision();
-    this.addCube();
+    this.addCube({ isHead: false });
   },
   setCurrentTagPosition: function (position) {
     this.tagPosition = position;
@@ -105,12 +108,14 @@ Snake.prototype = {
     }
     return [0, 0, 0];
   },
-  createCube: function (position) {
-    var cube = new THREE.Mesh(this.geometry, this.material);
-    return cube;
+  createCube: function ({ isHead }: { isHead: true }) {
+    if (isHead) {
+      return getSnakeHead(fieldSize.unitSize);
+    }
+    return getSnakeSection(fieldSize.unitSize);
   },
-  addCube: function () {
-    this.snake.push(this.createCube());
+  addCube: function ({ isHead }: { isHead: true }) {
+    this.snake.push(this.createCube({ isHead }));
   },
   render: function () {
     this.liveTime++;
