@@ -14,7 +14,7 @@ const FIELD_SIZE = {
   z: gridSize,
 };
 
-var camera, scene, renderer, mesh, cameraGoal, snake, tag;
+var camera, scene, renderer, cameraGoal, snake, tag;
 
 var renderCounter = 0;
 var speed = 5;
@@ -134,6 +134,7 @@ function init(onGamaOver): GameEvents {
   snake.render();
 
   snake.onTagCollision = function () {
+    // KATYA
     scene.remove(tag);
     tag = addTagToScene(randomAxis(), unitSize, randomAxis());
     // setScore();
