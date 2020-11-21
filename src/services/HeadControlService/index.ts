@@ -2,7 +2,7 @@ import HeadControlService from './HeadControlService';
 
 export { default } from './HeadControlService';
 
-export const initHeadControl = () => {
+export const initHeadControl = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     const headControlService = new HeadControlService('head-preview', {
       onReady: () => resolve(true),
