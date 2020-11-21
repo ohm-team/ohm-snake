@@ -1,6 +1,10 @@
-type EVENT_NAME = 'up' | 'down' | 'left' | 'right';
+type EVENT_NAME = 'up' | 'down' | 'left' | 'right' | 'mouse opened' | 'mouse closed';
 
 interface HeadControlServiceSettings {
+  /** from 0 to 1 */
+  mouseOpeningTreshold: number;
+  /** from 0 to 1 */
+  mouseClosingTreshold: number;
   disableRestPosition: boolean;
   detectionThreshold: number;
   detectionHysteresis: number;
@@ -29,6 +33,8 @@ type DetectState = {
 };
 
 const defaultSettings: HeadControlServiceSettings = {
+  mouseOpeningTreshold: 0.7,
+  mouseClosingTreshold: 0.4,
   disableRestPosition: false,
   /** sensibility, between 0 and 1. Less -> more sensitive */
   detectionThreshold: 0.85,
@@ -57,9 +63,10 @@ type Movement = {
 };
 
 class HeadControlService extends EventTarget {
-  private movementLocks: { [key in 'vertical' | 'horizontal']: boolean } = {
+  private movementLocks: { [key in 'vertical' | 'horizontal' | 'mouseOpened']: boolean } = {
     vertical: false,
     horizontal: false,
+    mouseOpened: false,
   };
 
   private settings: HeadControlServiceSettings;
@@ -118,14 +125,17 @@ class HeadControlService extends EventTarget {
       },
       // called at each render iteration (drawing loop):
       callbackTrack: (detectState) => {
-        const mv: Partial<Movement> = this.computeCameraMove(detectState);
-        mv.expressions = detectState.expressions;
         if (!this.state.isEnabled) {
           return;
         }
+        const mv: Partial<Movement> = this.computeCameraMove(detectState);
+        mv.expressions = detectState.expressions;
+
         if (mv.dRx !== 0 || mv.dRy !== 0 || mv.dZ !== 0) {
           this.handleMove(mv as Movement);
         }
+
+        this.handleMouseOpening(detectState);
       },
     });
   }
@@ -143,6 +153,25 @@ class HeadControlService extends EventTarget {
       return true;
     }
   }
+
+  private handleMouseOpening = (detectState: DetectState) => {
+    if (detectState.ry < -3 || detectState.ry > 3) {
+      // Head should be in the center position
+      return;
+    }
+    let mouthOpening = (detectState.expressions[0] - 0.2) * 5.0;
+    mouthOpening = Math.min(Math.max(mouthOpening, 0), 1);
+    if (mouthOpening > this.settings.mouseOpeningTreshold && !this.movementLocks.mouseOpened) {
+      this.movementLocks.mouseOpened = true;
+      this.dispatchEvent(new Event('mouse opened'));
+      return;
+    }
+    if (mouthOpening < this.settings.mouseClosingTreshold && this.movementLocks.mouseOpened) {
+      this.movementLocks.mouseOpened = false;
+      this.dispatchEvent(new Event('mouse closed'));
+      return;
+    }
+  };
 
   private handleMove = (mv: Movement) => {
     if (mv.dRx !== 0) {
