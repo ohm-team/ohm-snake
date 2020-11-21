@@ -42,7 +42,7 @@ function drawCanvas(canvas, img) {
   canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height, x, y, img.width * ratio, img.height * ratio);
 }
 
-export const initImageCapture = async () => {
+export const initImageCapture = async ({ isDebug }: { isDebug: boolean }) => {
   if (isInit) {
     return Promise.resolve();
   }
@@ -51,6 +51,9 @@ export const initImageCapture = async () => {
   return navigator.mediaDevices
     .getUserMedia({ video: true })
     .then((mediaStream) => {
+      if (isDebug) {
+        console.log('ImageCaptureService is initialised');
+      }
       try {
         const track = mediaStream.getVideoTracks()[0];
         imageCapture = new ImageCapture(track);

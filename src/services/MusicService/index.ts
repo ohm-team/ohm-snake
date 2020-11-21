@@ -5,11 +5,15 @@ import boo from './boo';
 let musicApi;
 let booApi;
 
-export default async () =>
+export default async ({ isDebug }: { isDebug: boolean }) =>
   Promise.all([initMusic()]).then(([_musicApi]) => {
     musicApi = _musicApi;
     booApi = boo();
+    if (isDebug) {
+      console.log('MusicService is initialised');
+    }
   });
+
 export const playMusic = () => musicApi.play();
 export const stopMusic = () => musicApi.stop();
 export const playGameOver = () => bitcrusher();

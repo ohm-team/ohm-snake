@@ -1,12 +1,23 @@
 let VOICE;
 
-export const initVoiceService = async () => {
+let triesBeforeTimeout = 10;
+
+export const initVoiceService = async ({ isDebug }: { isDebug: boolean }) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
+      VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB' || lang === 'en_GB');
       if (!VOICE) {
-        initVoiceService().then(resolve);
+        triesBeforeTimeout--;
+
+        if (!triesBeforeTimeout) {
+          throw new Error('speechSynthesis have not return voices');
+        }
+
+        initVoiceService({ isDebug }).then(resolve);
         return;
+      }
+      if (isDebug) {
+        console.log('VoiceService is initialised');
       }
       resolve(true);
     }, 500);
