@@ -1,4 +1,5 @@
 import 'image-capture';
+import './bitmapPolyfill.ts';
 
 let imageCapture;
 let isInit = false;
