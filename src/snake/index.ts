@@ -2,13 +2,59 @@ import * as THREE from 'three';
 
 var DEGTORAD = 0.01745327;
 
-export function Snake(scene, size, color, cameraGoal) {
+const dist = ([x1, y1, z1], [x2, y2, z2]) => {
+  var a = x1 - x2;
+  var b = z1 - z2;
+
+  return Math.sqrt(a * a + b * b);
+};
+
+function midpoint([x1, y1, z1], [x2, y2, z2], per) {
+  return [x1 + (x2 - x1) * per, y1, z1 + (z2 - z1) * per];
+}
+let zi = 0;
+
+const findPointByDistance = (points, distance) => {
+  let passedDistance = 0;
+  let foundPoint = null;
+
+  // zi++;
+  // if (zi > 1000) {
+  //     debugger;
+  // }
+
+  points.forEach((point, i) => {
+    if (!foundPoint) {
+      if (points.length <= i + 1) {
+        foundPoint = point;
+        return;
+      }
+
+      let nextPoint = points[i + 1];
+      let d = dist(point, nextPoint);
+      if (passedDistance + d >= distance) {
+        let dOnPoint = distance - passedDistance;
+        foundPoint = midpoint(point, nextPoint, dOnPoint / d);
+        return;
+      } else {
+        passedDistance += d;
+        return;
+      }
+    }
+  });
+
+  return foundPoint;
+};
+
+export function Snake(scene, size, color, cameraGoal, pathPoints) {
   this.snake = [];
   this.scene = scene;
-  this.size = size; // snake is made up of cubes
+  this.size = size;
   this.color = color;
-  this.distance = 0.125; // distance to move by
-  this.initialSize = 5;
+  this.pathPoints = pathPoints;
+  this.distance = size / 4;
+  this.initialSize = 4;
+  this.speed = 0.01;
 
   this.cameraGoal = cameraGoal;
 
@@ -34,11 +80,13 @@ Snake.prototype = {
     }
     this.setDefaultPositions();
     this.getHead().add(this.cameraGoal);
+    const { x, y, z } = this.getTail().position;
+    this.pathPoints.push([x, y, z]);
   },
   setDefaultPositions: function () {
     var self = this;
     this.snake.forEach(function (cube, index) {
-      cube.position.z = -1 * ((self.size / 2) * (index + 1));
+      cube.position.z = -1 * ((self.distance + self.size) * index);
       cube.position.y = self.size / 2;
       cube.position.x = 0;
     });
@@ -48,8 +96,9 @@ Snake.prototype = {
     this.init();
   },
   selfCollision: function () {
-    this.onSelfCollision();
-    this.clear();
+    console.log('self collision');
+    // this.onSelfCollision();
+    // this.clear();
   },
   tagCollision: function () {
     this.onTagCollision();
@@ -79,6 +128,15 @@ Snake.prototype = {
   getHead: function () {
     return this.snake[0];
   },
+  getTail: function () {
+    return this.snake[this.snake.length - 1];
+  },
+  getPositionAsVector: function () {
+    if (this.position) {
+      return [this.position.x, this.position.y, this.position.z];
+    }
+    return [0, 0, 0];
+  },
   createCube: function (position) {
     var cube = new THREE.Mesh(this.geometry, this.material);
     return cube;
@@ -89,28 +147,38 @@ Snake.prototype = {
   render: function () {
     var self = this;
     var next = null;
-    this.snake.forEach(function (cube) {
+    this.snake.forEach(function (cube, i) {
       var temp = null;
       if (self.axis !== null && self.direction !== null) {
         if (!next) {
           next = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
-          cube.position[self.axis] += self.direction * self.distance;
+
+          cube.position[self.axis] += self.direction * self.speed;
           self.position = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
           if (self.tagPosition) {
-            //   console.log('hi?',self.position,  self.tagPosition)
             if (self.isHit(self.position, self.tagPosition, self.size)) {
-              // console.log('hit');
               self.tagCollision();
             }
           }
         } else {
-          temp = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
-          cube.position.set(next.x, next.y, next.z);
+          const distanceFromBHead = i * (self.size + self.distance);
+
+          //   temp = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
+          const [x, y, z] = findPointByDistance(self.pathPoints, distanceFromBHead);
+          //   consoe.log('find', x, ,y, z)
+          cube.position.set(x, y, z);
+          //   cube.position.set(next.x, next.y, next.z);
+          //   if (self.axis == 'z') {
+          //     cube.translateZ(self.direction * self.distance);
+          //   }
+          //   if (self.axis == 'x') {
+          //     cube.translateX(self.direction * self.distance);
+          //   }
           // check if it collides with itself
           if (self.isHit(self.position, cube.position, self.size)) {
             self.selfCollision();
           }
-          next = { x: temp.x, y: temp.y, z: temp.z };
+          //   next = { x: temp.x, y: temp.y, z: temp.z };
         }
       }
       self.renderCube(cube);
@@ -118,7 +186,6 @@ Snake.prototype = {
   },
   turn: function (direction) {
     // 'left' or 'right
-    console.log(direction, this.direction);
     if (!this.direction) {
       this.forward();
       return;

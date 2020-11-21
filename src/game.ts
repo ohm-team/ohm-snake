@@ -1,5 +1,7 @@
 import * as THREE from 'three';
+import { Line } from 'three';
 import { Snake } from './snake';
+import { pathLine, addPointToPath, setPosition, updateFirstPointInPath, pathPoints } from './snake/points';
 
 interface GameEvents {
   turnLeft: () => void;
@@ -9,7 +11,7 @@ interface GameEvents {
 var camera, scene, renderer, mesh, cameraGoal, snake, tag;
 
 var renderCounter = 0;
-var speed = 15;
+var speed = 5;
 var unitSize = 0.1;
 var gridSize = unitSize * 50;
 
@@ -72,7 +74,7 @@ function init(): GameEvents {
 
   cameraGoal = new THREE.Object3D();
   //  --- Snake ---
-  snake = new Snake(scene, unitSize, 0x00ff00, cameraGoal);
+  snake = new Snake(scene, unitSize, 0x00ff00, cameraGoal, pathPoints);
   snake.render();
 
   snake.onTagCollision = function () {
@@ -85,7 +87,9 @@ function init(): GameEvents {
     // snake.getHead.
   };
 
-  cameraGoal.position.set(0, 1, -1);
+  scene.add(pathLine);
+
+  cameraGoal.position.set(0, 0.4, -0.5);
 
   tag = addTagToScene(randomAxis(), unitSize / 2, randomAxis());
 
@@ -121,6 +125,7 @@ function init(): GameEvents {
     right: {
       enabled: true,
       action: function () {
+        addPointToPath(snake.getPositionAsVector());
         snake.turn('right');
         // keyActions.left.enabled = false;
         // keyActions.forward.enabled = true;
@@ -131,6 +136,7 @@ function init(): GameEvents {
     left: {
       enabled: true,
       action: function () {
+        addPointToPath(snake.getPositionAsVector());
         snake.turn('left');
         // keyActions.right.enabled = false;
         // keyActions.backward.enabled = true;
@@ -194,16 +200,20 @@ function animate() {
 
   // }
   // snake.getHead().translateZ(0.01);
-  if (renderCounter === speed) {
-    snake.render();
+  // if (renderCounter === speed) {
+  snake.render();
+  renderCounter = 0;
 
-    temp.setFromMatrixPosition(snake.cameraGoal.matrixWorld);
-
-    renderCounter = 0;
-  }
-  renderCounter++;
-  camera.position.lerp(temp, 1);
   camera.lookAt(snake.getHead().position);
+  // }
+  renderCounter++;
+
+  updateFirstPointInPath(snake.getPositionAsVector());
+  setPosition();
+  pathLine.geometry.attributes.position.needsUpdate = true;
+
+  temp.setFromMatrixPosition(snake.cameraGoal.matrixWorld);
+  camera.position.lerp(temp, 0.05);
 
   renderer.render(scene, camera);
 }
