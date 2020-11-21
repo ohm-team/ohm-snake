@@ -6,7 +6,9 @@
   "scripts": {
     "build": "webpack --watch",
     "build:ci": "webpack --mode=production",
-    "prettier": "prettier --write '**/*.ts'"
+    "prettier": "prettier --write",
+    "lint:tsc:check": "tsc --noEmit",
+    "lint:check": "prettier --check . && npm run lint:tsc:check"
   },
   "repository": {
     "type": "git",
