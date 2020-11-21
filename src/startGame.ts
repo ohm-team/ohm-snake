@@ -17,7 +17,7 @@ export const startGameController = async (playerName: string) => {
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
 
-    const { turnLeft, turnRight } = startSnakeGame();
+    const { turnLeft, turnRight } = startSnakeGame(endGame);
     const handleMovement = (movement: Movement) => {
       takePhoto();
       if (movement === 'left') {
@@ -39,9 +39,6 @@ export const startGameController = async (playerName: string) => {
       return;
     };
     listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
-
-    await delay(10000);
-    endGame();
   } catch (e) {
     console.error(e);
     alert(e);
