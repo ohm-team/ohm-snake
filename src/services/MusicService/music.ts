@@ -1,5 +1,6 @@
 export default async function init() {
-  const ctx = new AudioContext();
+  // @ts-ignore
+  const ctx = new (AudioContext || webkitAudioContext)();
   const audio = await fetchTrack(ctx, '/audio/monsterslap.mp3');
   let source: AudioBufferSourceNode;
   let lastStop = 0;
