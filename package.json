@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webpack serve",
     "build": "webpack --watch",
     "build:ci": "webpack --mode=production",
     "prettier": "prettier --write",
