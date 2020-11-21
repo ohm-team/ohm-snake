@@ -45,7 +45,12 @@ export const initImageCapture = async () => {
     .getUserMedia({ video: true })
     .then((mediaStream) => {
       const track = mediaStream.getVideoTracks()[0];
-      imageCapture = new ImageCapture(track);
+      console.log(ImageCapture);
+      try {
+        imageCapture = new ImageCapture(track);
+      } catch (e) {
+        throw e;
+      }
     })
     .catch(() => {
       alert('Image capture is not supported on your device :(');
