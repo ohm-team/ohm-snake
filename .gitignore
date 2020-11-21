@@ -9,8 +9,7 @@ yarn-error.log*
 lerna-debug.log*
 node_modules
 
-public/bundle.js*
-public/main.css
+public/*.*
 
 # IDE code custom settings
 .vscode
