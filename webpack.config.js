@@ -1,6 +1,7 @@
 //webpack.config.js
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: "development",
@@ -10,13 +11,16 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: "bundle.js" // <--- Will be compiled to this single file
+    filename: "[name].[contenthash].js"
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
   },
   plugins: [
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Emotional Snake'
+    }),
   ],
   module: {
     rules: [
