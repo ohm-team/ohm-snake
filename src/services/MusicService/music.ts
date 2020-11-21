@@ -1,5 +1,5 @@
 // @ts-ignore
-const url = `${BASE_DIR}/audio/monsterslap.mp3`;
+const url = `./audio/monsterslap.mp3`;
 
 export default async function init() {
   // @ts-ignore
