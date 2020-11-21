@@ -1,10 +1,18 @@
 let VOICE;
 
+let triesBeforeTimeout = 10;
+
 export const initVoiceService = async ({ isDebug }: { isDebug: boolean }) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
       if (!VOICE) {
+        triesBeforeTimeout--;
+
+        if (!triesBeforeTimeout) {
+          throw new Error('speechSynthesis have not return voices');
+        }
+
         initVoiceService({ isDebug }).then(resolve);
         return;
       }
