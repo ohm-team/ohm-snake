@@ -3,6 +3,7 @@ import { fieldSize } from './config';
 import { getSnakeHead, getSnakeSection } from './models';
 
 import { DEGTORAD, findPointByDistance } from './utils';
+import { fieldSize } from './config';
 
 const snakeSpeeds = [0.011, 0.0125, 0.015, 0.016, 0.0165, 0.017, 0.018, 0.019, 0.02, 0.021, 0.022, 0.023, 0.024, 0.0245, 0.025];
 
@@ -72,6 +73,13 @@ Snake.prototype = {
   setCurrentTagPosition: function (position) {
     this.tagPosition = position;
   },
+  isOnField: function () {
+    const inX = (-1 * fieldSize.x) / 2 < this.position.x && this.position.x < fieldSize.x / 2;
+    const inZ = (-1 * fieldSize.x) / 2 < this.position.z && this.position.z < fieldSize.x / 2;
+
+    // console.log(this.position, inX, inZ);
+    return inX && inZ;
+  },
   isHit: function (a, d, size) {
     let b1 = a.y - size / 2;
     let t1 = a.y + size / 2;
@@ -125,10 +133,16 @@ Snake.prototype = {
       var temp = null;
       if (self.axis !== null && self.direction !== null) {
         if (i === 0) {
+          // head
           cube.position[self.axis] += self.direction * self.speed;
           self.position = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
 
           self.updateFirstPoint();
+
+          if (!self.isOnField()) {
+            self.selfCollision();
+            return;
+          }
 
           if (self.tagPosition) {
             if (self.isHit(self.position, self.tagPosition, self.size)) {

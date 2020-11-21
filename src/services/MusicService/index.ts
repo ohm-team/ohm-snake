@@ -17,7 +17,7 @@ export default async ({ isDebug }: { isDebug: boolean }) =>
 export const playMusic = () => musicApi.play();
 export const stopMusic = () => musicApi.stop();
 export const playGameOver = () => bitcrusher();
-export const playBoo = () => booApi();
+export const playBoo = (direction) => booApi(direction);
 export const renderDebugButtons = () => {
   const fieldset = document.createElement('fieldset');
   fieldset.style.position = 'absolute';
