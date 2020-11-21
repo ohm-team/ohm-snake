@@ -53,7 +53,9 @@ const initAllAPI = async () => {
 };
 
 const initApp = async () => {
-  $('#faceButton').click(async () => {
+  const fb = document.getElementById('faceButton');
+  console.log(fb);
+  fb.addEventListener('click', async () => {
     console.log('poto ebla');
     gameScreen.show();
     startScreen.hide();
