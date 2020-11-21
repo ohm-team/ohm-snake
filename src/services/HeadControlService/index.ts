@@ -17,11 +17,11 @@ export const initHeadControl = ({
       onError: reject,
     });
     headControlService.toggle(true);
-    headControlService.addEventListener('mouse opened', () => onMovement('mouse opened'));
-    headControlService.addEventListener('mouse closed', () => onMovement('mouse closed'));
-    headControlService.addEventListener('left', () => onMovement('left'));
-    headControlService.addEventListener('right', () => onMovement('right'));
-    headControlService.addEventListener('up', () => onMovement('up'));
-    headControlService.addEventListener('down', () => onMovement('down'));
+    //headControlService.addEventListener('mouse opened', () => onMovement('mouse opened'));
+    //headControlService.addEventListener('mouse closed', () => onMovement('mouse closed'));
+    //headControlService.addEventListener('left', () => onMovement('left'));
+    //headControlService.addEventListener('right', () => onMovement('right'));
+    //headControlService.addEventListener('up', () => onMovement('up'));
+    //headControlService.addEventListener('down', () => onMovement('down'));
   });
 };
