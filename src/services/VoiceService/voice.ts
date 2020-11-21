@@ -5,7 +5,7 @@ let triesBeforeTimeout = 10;
 export const initVoiceService = async ({ isDebug }: { isDebug: boolean }) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
+      VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB' || lang === 'en_GB');
       if (!VOICE) {
         triesBeforeTimeout--;
 
