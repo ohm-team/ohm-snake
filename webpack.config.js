@@ -17,7 +17,9 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js"],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
+    }),
     new HtmlWebpackPlugin({
       title: 'Emotional Snake'
     }),
