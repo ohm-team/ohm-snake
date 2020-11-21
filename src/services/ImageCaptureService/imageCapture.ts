@@ -6,6 +6,7 @@ let isInit = false;
 
 export const takePhoto = async () => {
   if (!imageCapture) {
+    console.log('no image capture');
     return;
   }
   await imageCapture
