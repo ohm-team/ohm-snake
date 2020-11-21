@@ -3,7 +3,7 @@ import './declare';
 import './game';
 import { startSnakeGame } from './game';
 import { enableControls, initHeadControl, MOVEMENT } from './services/HeadControlService';
-import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
+import { initImageCapture, makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
 import { initVisibilityService, VISIBILITY_STATE } from './services/VisibilityService';
@@ -42,15 +42,23 @@ const initAllAPI = async () => {
       console.log(e);
     });
 };
+const delay = () => new Promise((r) => setTimeout(r, 1000));
 
+const generateGif = async () => {
+  await takePhoto();
+  await delay();
+  await takePhoto();
+  await delay();
+  await takePhoto();
+  makeGif();
+};
 const initApp = async () => {
   const fb = document.getElementById('faceButton');
-  console.log(fb);
+
   fb.addEventListener('click', async () => {
-    console.log('poto ebla');
+    console.log('photo ebla');
     gameScreen.show();
     startScreen.hide();
-    await takePhoto();
   });
   preloader.show();
   gameScreen.hide();
@@ -86,6 +94,7 @@ const startGame = async (playerName: string) => {
       }
     };
     enableControls({ onMovement: handleMovement });
+    await generateGif();
     // await takePhoto();
   } catch (e) {
     console.error(e);
