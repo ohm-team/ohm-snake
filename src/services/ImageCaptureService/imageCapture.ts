@@ -1,9 +1,16 @@
 import './capturePolyfill';
 import './bitmapPolyfill.ts';
 import { CapturePolyfill } from './capturePolyfill';
+import { gif } from './gif';
 
 let imageCapture;
 let isInit = false;
+
+const photos = [];
+
+export const makeGif = () => {
+  gif(photos, '#gifContainer');
+};
 
 export const takePhoto = async () => {
   if (!imageCapture) {
@@ -12,22 +19,14 @@ export const takePhoto = async () => {
   }
   await imageCapture
     .takePhoto()
-    .then((blob) => {
-      console.log(blob);
-      return createImageBitmap(blob);
-    })
+    .then((blob) => createImageBitmap(blob))
     .then((imageBitmap) => {
       const canvas: HTMLCanvasElement = document.querySelector('#takePhotoCanvas');
+
       canvas.style.display = 'block';
       drawCanvas(canvas, imageBitmap);
-      //canvas.toBlob(async (blob) => {
-      //  try {
-      //    await createFile(blob);
-      //    await readFile();
-      //  } catch (e) {
-      //    throw e;
-      //  }
-      //});
+      debugger;
+      photos.push(canvas.toDataURL('image/jpeg'));
     })
     .catch((e) => {
       console.log(e);

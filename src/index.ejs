@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -63,7 +62,7 @@
 
     <div class="game" id="game" style="display: none">
       <h1 class="title">Emotional <br />snake</h1>
-
+        <canvas id="takePhotoCanvas" class="photo-canvas"></canvas>
         <div id="game-canvas-container">
             <canvas id="snakeCanvas" class="snake-canvas"></canvas>
         </div>
@@ -73,8 +72,8 @@
                 width="256"
                 height="256"
         ></canvas>
-        <canvas id="takePhotoCanvas" class="photo-canvas"></canvas>
 
+        <div id="gifContainer"></div>
     </div>
 
     <div id="console" class="console"></div>

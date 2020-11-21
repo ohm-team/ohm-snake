@@ -3,10 +3,10 @@ import './declare';
 import './game';
 import { startSnakeGame } from './game';
 import { enableControls, initHeadControl, Movement } from './services/HeadControlService';
-import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
+import { initImageCapture, makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
+import { initVisibilityService, listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
-import { initVisibilityService, VISIBILITY_STATE } from './services/VisibilityService';
 import initMusicService, { playBoo, playMusic, renderDebugButtons } from './services/MusicService';
 
 const startButton = $('#startButton');
@@ -16,24 +16,13 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  const handleVisibilityChange = (visibilityState: VISIBILITY_STATE) => {
-    if (visibilityState === 'visible') {
-      console.log('unpause!');
-      return;
-    }
-    console.log('pause!');
-    return;
-  };
-
   return Promise.all([
     initImageCapture(),
     initVoiceService(),
     initHeadControl({
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
-    initVisibilityService({
-      onVisibilityChange: handleVisibilityChange,
-    }),
+    initVisibilityService(),
     initMusicService(),
   ])
     .then(() => {
@@ -44,15 +33,23 @@ const initAllAPI = async () => {
       console.log(e);
     });
 };
+const delay = () => new Promise((r) => setTimeout(r, 1000));
 
+const generateGif = async () => {
+  await takePhoto();
+  await delay();
+  await takePhoto();
+  await delay();
+  await takePhoto();
+  makeGif();
+};
 const initApp = async () => {
   const fb = document.getElementById('faceButton');
-  console.log(fb);
+
   fb.addEventListener('click', async () => {
-    console.log('poto ebla');
+    console.log('photo ebla');
     gameScreen.show();
     startScreen.hide();
-    await takePhoto();
   });
   preloader.show();
   gameScreen.hide();
@@ -92,6 +89,17 @@ const startGame = async (playerName: string) => {
     enableControls({ onMovement: handleMovement });
     playMusic();
     renderDebugButtons();
+    const handleVisibilityChange = (visibilityState: VisibilityState) => {
+      if (visibilityState === 'visible') {
+        console.log('unpause!');
+        return;
+      }
+      console.log('pause!');
+      return;
+    };
+    listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
+
+    await generateGif();
     // await takePhoto();
   } catch (e) {
     console.error(e);
