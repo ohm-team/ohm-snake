@@ -12,10 +12,14 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  return Promise.all([initImageCapture(), initVoiceService(), initHeadControl()]).then(() => {
-    preloader.hide();
-    startScreen.show();
-  });
+  return Promise.all([initImageCapture(), initVoiceService(), initHeadControl()])
+    .then(() => {
+      preloader.hide();
+      startScreen.show();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 };
 
 const initApp = async () => {
