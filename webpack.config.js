@@ -1,6 +1,5 @@
 //webpack.config.js
 const path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: "development",
