@@ -90,7 +90,6 @@ function init() {
 
   renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
 
   var keyActions = {
     // backward: {
