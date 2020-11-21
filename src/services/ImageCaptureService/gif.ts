@@ -12,7 +12,8 @@ export const gif = (imgs: any[], containerSelector: string) => {
         const image = obj.image;
         const animatedImage = document.createElement('img');
         animatedImage.src = image;
-        $(containerSelector).remove('img');
+
+        $(containerSelector + ' img').remove();
         $(containerSelector).append(animatedImage);
       }
     }

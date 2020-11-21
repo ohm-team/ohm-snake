@@ -10,6 +10,7 @@ const photos = [];
 
 export const makeGif = () => {
   gif(photos, '#gifContainer');
+  gif(photos, '#gifContainer');
 };
 
 export const takePhoto = async () => {
