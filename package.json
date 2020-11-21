@@ -15,17 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/ohm-team/ohm-snake.git"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write"
-    ]
-  },
-  "author": "",
+  "author": "ohm-team",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ohm-team/ohm-snake/issues"

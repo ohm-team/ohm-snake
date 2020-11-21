@@ -1,0 +1,14 @@
+{
+  "*.(js|jsx|ts|tsx)": [
+    "npm run prettier"
+  ],
+  "*.json": [
+    "npm run prettier"
+  ],
+  "*.scss": [
+    "npm run prettier"
+  ],
+  "*.md": [
+    "npm run prettier"
+  ]
+}
