@@ -1,4 +1,4 @@
-import { createFile, readFile } from './fileSystem';
+import 'image-capture';
 
 let imageCapture;
 let isInit = false;
