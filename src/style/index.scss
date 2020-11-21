@@ -1,12 +1,13 @@
-@import "./button";
-@import "./input";
-@import "./game";
-@import "./console";
-@import "./loader";
+@import './button';
+@import './input';
+@import './game';
+@import './console';
+@import './loader';
 
 $background-gradient: linear-gradient(to bottom, #aaffa9, #11ffbd);
 
-body, html {
+body,
+html {
   margin: 0;
 }
 
@@ -17,7 +18,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .game {
@@ -31,7 +32,6 @@ body {
   font-size: 18px;
 }
 
-
 .title {
   font-family: 'Bungee Shade';
   text-align: center;
@@ -39,7 +39,8 @@ body {
   margin-bottom: 1em;
 }
 
-.photo-canvas, .snake-canvas {
+.photo-canvas,
+.snake-canvas {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -49,7 +50,7 @@ body {
 }
 
 .photo-canvas {
-  left: -200%
+  left: -200%;
 }
 
 .snake-canvas {
@@ -63,21 +64,20 @@ $bg: #74ffb0;
   align-items: center;
   justify-content: center;
   display: flex;
-  
+
   .text {
     font-family: 'Rubik', sans-serif;
     position: absolute;
     width: 300px;
     top: -35px;
-    lefT: -100%;
+    left: -100%;
     text-align: center;
   }
-  
-  
+
   img {
     position: relative;
   }
-  
+
   img + .share {
     content: 'Share';
     color: white;
@@ -95,7 +95,6 @@ $bg: #74ffb0;
       height: 10px;
     }
     */
-    
   }
 }
 
@@ -109,13 +108,11 @@ $bg: #74ffb0;
   font-family: 'Rubik', sans-serif;
 }
 
-
 .replay {
-  
   $top-pad: 6px;
   $side-pad: 15px;
   $border-size: 2px;
-  
+
   position: relative;
   display: inline-block;
   text-decoration: none;
@@ -124,9 +121,8 @@ $bg: #74ffb0;
   background: none;
   color: black;
   border: 2px solid black;
-  box-shadow: 0 0 0 $border-size #74ffb0, 0 0 0 ($border-size *2) black;
+  box-shadow: 0 0 0 $border-size #74ffb0, 0 0 0 ($border-size * 2) black;
   transition: all 0.2s ease-in-out;
   will-change: box-shadow, margin, padding;
   cursor: pointer;
-  
 }

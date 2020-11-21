@@ -5,38 +5,38 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    main: "./src/index.ts",
+    main: './src/index.ts',
   },
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: "[name].[contenthash].js"
+    filename: '[name].[contenthash].js',
   },
   externals: {
-    "three": "THREE"
+    three: 'THREE',
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].[contenthash].css"
+      filename: '[name].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
-      title: 'Emotional Snake'
+      title: 'Emotional Snake',
     }),
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['*.*']
+      cleanOnceBeforeBuildPatterns: ['*.*'],
     }),
   ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
+        loader: 'ts-loader',
         options: {
-          transpileOnly: true
-        }
+          transpileOnly: true,
+        },
       },
       {
         test: /\.s[ac]ss$/i,
@@ -44,12 +44,12 @@ module.exports = {
           // Creates `style` nodes from JS strings
           MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
-          "sass-loader",
-          "postcss-loader"
+          'sass-loader',
+          'postcss-loader',
         ],
       },
-    ]
-  }
+    ],
+  },
 };
