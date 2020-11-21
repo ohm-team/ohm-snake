@@ -59,6 +59,7 @@ Snake.prototype = {
   },
   tagCollision: function () {
     this.speed = this.speed * 1.25;
+    console.log('speed', this.speed);
     this.onTagCollision();
     this.addCube();
   },

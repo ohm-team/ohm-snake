@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --watch",
-    "build:ci": "webpack --mode=production",
+    "build": "BASE_DIR= webpack --watch",
+    "build:ci": "BASE_DIR=/ohm-snake webpack --mode=production",
     "prettier": "prettier --write '**/*.ts'"
   },
   "repository": {
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/jquery": "^3.5.4",
     "@types/w3c-image-capture": "^1.0.2",
+    "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
     "html-webpack-plugin": "^4.5.0",
     "husky": "^4.3.0",

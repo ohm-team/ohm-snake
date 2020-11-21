@@ -1,12 +1,13 @@
 import { enableMobileConsole } from './console';
 import './declare';
 import './game';
-import { startSnakeGame } from './game';
-import { enableControls, initHeadControl, Movement } from './services/HeadControlService';
-import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
-import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
+import { initHeadControl } from './services/HeadControlService';
+import { initImageCapture } from './services/ImageCaptureService/imageCapture';
+import { initVisibilityService } from './services/VisibilityService';
+import { initVoiceService } from './services/VoiceService/voice';
+import { startGameController } from './startGame';
 import './style/index.scss';
-import { initVisibilityService, listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
+import initMusicService, { playBoo, playMusic, renderDebugButtons } from './services/MusicService';
 
 const startButton = $('#startButton');
 const preloader = $('#preloader');
@@ -22,6 +23,7 @@ const initAllAPI = async () => {
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
     initVisibilityService(),
+    initMusicService(),
   ])
     .then(() => {
       preloader.hide();
@@ -33,14 +35,13 @@ const initAllAPI = async () => {
 };
 
 const initApp = async () => {
-  const fb = document.getElementById('faceButton');
-  console.log(fb);
-  fb.addEventListener('click', async () => {
-    console.log('poto ebla');
-    gameScreen.show();
-    startScreen.hide();
-    await takePhoto();
-  });
+  //const fb = document.getElementById('faceButton');
+  //
+  //fb.addEventListener('click', async () => {
+  //  console.log('photo ebla');
+  //  gameScreen.show();
+  //  startScreen.hide();
+  //});
   preloader.show();
   gameScreen.hide();
   startScreen.hide();
@@ -59,36 +60,12 @@ const initApp = async () => {
 };
 
 const startGame = async (playerName: string) => {
-  try {
-    console.log('start game');
-    gameScreen.show();
-    startScreen.hide();
-    setUpUser(playerName);
-    saySomething(PHRASES.HELLO);
-    const { turnLeft, turnRight } = startSnakeGame();
-    const handleMovement = (movement: Movement) => {
-      if (movement === 'left') {
-        turnLeft();
-      }
-      if (movement === 'right') {
-        turnRight();
-      }
-    };
-    enableControls({ onMovement: handleMovement });
-    const handleVisibilityChange = (visibilityState: VisibilityState) => {
-      if (visibilityState === 'visible') {
-        console.log('unpause!');
-        return;
-      }
-      console.log('pause!');
-      return;
-    };
-    listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
-    // await takePhoto();
-  } catch (e) {
-    console.error(e);
-    alert(e);
-  }
+  console.log('start game');
+  gameScreen.show();
+  startScreen.hide();
+  startGameController(playerName);
+  playMusic();
+  renderDebugButtons();
 };
 
 window.onload = async () => {

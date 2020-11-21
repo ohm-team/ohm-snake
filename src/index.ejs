@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -57,13 +56,13 @@
           </div>
         </div>
       </div>
-        <button id="faceButton" class="start">Selfie</button>
+<!--        <button id="faceButton" class="start">Selfie</button>-->
     </div>
 
 
     <div class="game" id="game" style="display: none">
       <h1 class="title">Emotional <br />snake</h1>
-
+        <canvas id="takePhotoCanvas" class="photo-canvas"></canvas>
         <div id="game-canvas-container">
             <canvas id="snakeCanvas" class="snake-canvas"></canvas>
         </div>
@@ -73,7 +72,23 @@
                 width="256"
                 height="256"
         ></canvas>
-        <canvas id="takePhotoCanvas" class="photo-canvas"></canvas>
+    </div>
+
+    <div class="game" id="gameover" style="display: none">
+        <h1 class="title title-gameover">Game over</h1>
+        <div id="gifContainer"></div>
+        <div class="replay" id="replay">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                 x="0px" y="0px"
+                 viewBox="0 0 74.999 74.999" style="enable-background:new 0 0 74.999 74.999;" xml:space="preserve"><g>
+                    <path d="M33.511,71.013c15.487,0,28.551-10.563,32.375-24.859h9.113L61.055,22L47.111,46.151h8.006
+                    c-3.44,8.563-11.826,14.628-21.605,14.628c-12.837,0-23.28-10.443-23.28-23.28c0-12.836,10.443-23.28,23.28-23.28
+                    c6.604,0,12.566,2.768,16.809,7.196l5.258-9.108c-5.898-5.176-13.619-8.32-22.065-8.32C15.034,3.987,0,19.019,0,37.5
+                    C-0.002,55.981,15.03,71.013,33.511,71.013z"/>
+                </g>
+
+            </svg>
+        </div>
 
     </div>
 
