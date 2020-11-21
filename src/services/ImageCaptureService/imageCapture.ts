@@ -44,10 +44,10 @@ export const initImageCapture = async () => {
   return navigator.mediaDevices
     .getUserMedia({ video: true })
     .then((mediaStream) => {
-      const track = mediaStream.getVideoTracks()[0];
-      console.log(ImageCapture);
       try {
+        const track = mediaStream.getVideoTracks()[0];
         imageCapture = new ImageCapture(track);
+        console.log('image capture initied');
       } catch (e) {
         throw e;
       }

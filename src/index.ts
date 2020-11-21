@@ -1,7 +1,7 @@
 import { enableMobileConsole } from './console';
 import { initHeadControl } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
-import { initVoiceService, setUpUser } from './services/VoiceService/voice';
+import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './declare';
 import './style/index.scss';
 
@@ -36,6 +36,7 @@ const initApp = async () => {
   });
 
   startButton.click(async () => {
+    console.log('start game');
     await startGame(nameInput.val() as string);
   });
 };
@@ -46,7 +47,7 @@ const startGame = async (playerName: string) => {
     gameScreen.show();
     startScreen.hide();
     setUpUser(playerName);
-    // saySomething(PHRASES.HELLO);
+    saySomething(PHRASES.HELLO);
   } catch (e) {
     alert(e);
   }
