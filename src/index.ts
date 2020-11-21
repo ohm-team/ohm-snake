@@ -95,5 +95,6 @@ const startGame = async (playerName: string) => {
 
 window.onload = async () => {
   enableMobileConsole();
-  await initApp();
+  startSnakeGame();
+  //   await initApp();
 };
