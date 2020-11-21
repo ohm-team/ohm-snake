@@ -1,4 +1,5 @@
-export type VISIBILITY_STATE = 'visible' | 'invisible';
+export type VisibilityState = 'visible' | 'invisible';
+export const EVENT_CHANGE = 'change';
 
 class VisibilityService extends EventTarget {
   constructor() {
@@ -13,10 +14,14 @@ class VisibilityService extends EventTarget {
   private handleVisibilityChange = () => {
     const { hidden } = this.getVisibilityApiNames();
     if (document[hidden]) {
-      this.dispatchEvent(new Event('invisible' as VISIBILITY_STATE));
+      this.dispatchEvent(
+        new CustomEvent<VisibilityState>(EVENT_CHANGE, { detail: 'invisible' })
+      );
       return;
     }
-    this.dispatchEvent(new Event('visible' as VISIBILITY_STATE));
+    this.dispatchEvent(
+      new CustomEvent<VisibilityState>(EVENT_CHANGE, { detail: 'visible' })
+    );
   };
 
   private getVisibilityApiNames = (): {

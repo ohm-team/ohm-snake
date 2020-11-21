@@ -2,11 +2,11 @@ import { enableMobileConsole } from './console';
 import './declare';
 import './game';
 import { startSnakeGame } from './game';
-import { enableControls, initHeadControl, MOVEMENT } from './services/HeadControlService';
+import { enableControls, initHeadControl, Movement } from './services/HeadControlService';
 import { initImageCapture, makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
+import { initVisibilityService, listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
-import { initVisibilityService, VISIBILITY_STATE } from './services/VisibilityService';
 
 const startButton = $('#startButton');
 const preloader = $('#preloader');
@@ -15,24 +15,13 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  const handleVisibilityChange = (visibilityState: VISIBILITY_STATE) => {
-    if (visibilityState === 'visible') {
-      console.log('unpause!');
-      return;
-    }
-    console.log('pause!');
-    return;
-  };
-
   return Promise.all([
     initImageCapture(),
     initVoiceService(),
     initHeadControl({
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
-    initVisibilityService({
-      onVisibilityChange: handleVisibilityChange,
-    }),
+    initVisibilityService(),
   ])
     .then(() => {
       preloader.hide();
@@ -85,7 +74,7 @@ const startGame = async (playerName: string) => {
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
     const { turnLeft, turnRight } = startSnakeGame();
-    const handleMovement = (movement: MOVEMENT) => {
+    const handleMovement = (movement: Movement) => {
       if (movement === 'left') {
         turnLeft();
       }
@@ -94,6 +83,16 @@ const startGame = async (playerName: string) => {
       }
     };
     enableControls({ onMovement: handleMovement });
+    const handleVisibilityChange = (visibilityState: VisibilityState) => {
+      if (visibilityState === 'visible') {
+        console.log('unpause!');
+        return;
+      }
+      console.log('pause!');
+      return;
+    };
+    listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
+
     await generateGif();
     // await takePhoto();
   } catch (e) {
@@ -104,5 +103,6 @@ const startGame = async (playerName: string) => {
 
 window.onload = async () => {
   enableMobileConsole();
+  //   startSnakeGame();
   await initApp();
 };
