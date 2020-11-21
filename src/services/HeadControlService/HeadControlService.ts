@@ -1,5 +1,15 @@
 type EVENT_NAME = 'up' | 'down' | 'left' | 'right' | 'mouse opened' | 'mouse closed';
 
+type ERROR_CODE =
+  | 'GL_INCOMPATIBLE'
+  | 'ALREADY_INITIALIZED'
+  | 'NO_CANVASID'
+  | 'INVALID_CANVASID'
+  | 'INVALID_CANVASDIMENSIONS'
+  | 'WEBCAM_UNAVAILABLE'
+  | 'GLCONTEXT_LOST'
+  | 'MAXFACES_TOOHIGH';
+
 interface HeadControlServiceSettings {
   /** from 0 to 1 */
   mouseOpeningTreshold: number;
@@ -10,6 +20,7 @@ interface HeadControlServiceSettings {
   /** from 0 to 1 */
   headMovementStoppedTreshold: number;
   onReady?: () => void;
+  onCameraPersmissionFailed?: () => void;
 }
 
 type DetectState = {
@@ -69,8 +80,12 @@ class HeadControlService extends EventTarget {
       canvasId: canvasId,
       NNCPath: './vendor/',
       animateDelay: 20, //avoid DOM lags
-      callbackReady: (errCode, jeeFaceFilterObj) => {
+      callbackReady: (errCode: ERROR_CODE, jeeFaceFilterObj) => {
         if (errCode) {
+          if ((errCode = 'WEBCAM_UNAVAILABLE')) {
+            settings.onCameraPersmissionFailed && settings.onCameraPersmissionFailed();
+            return;
+          }
           console.error('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
           return;
         }
@@ -246,7 +261,7 @@ declare global {
         NNCPath: string;
         /**  It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in PACMAN or EARTH NAVIGATION demos) you should set a small animateDelay value (for example 2 milliseconds) in order to avoid rendering lags. */
         animateDelay: number;
-        callbackReady: (errCode: string, jeeFaceFilterObj) => void;
+        callbackReady: (errCode: ERROR_CODE, jeeFaceFilterObj) => void;
         callbackTrack: (detectState: DetectState) => void;
       }) => void;
     };
