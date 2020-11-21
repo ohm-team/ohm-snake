@@ -1,6 +1,11 @@
 import * as THREE from 'three';
 import { Snake } from './snake';
 
+interface GameEvents {
+  turnLeft: () => void;
+  turnRight: () => void;
+}
+
 var camera, scene, renderer, mesh, cameraGoal, snake, tag;
 
 var renderCounter = 0;
@@ -23,9 +28,10 @@ var keys = {
   32: 'pause', // spacebar
 };
 
-export const startSnakeGame = () => {
-  init();
+export const startSnakeGame = (): GameEvents => {
+  const events = init();
   animate();
+  return events;
 };
 
 function randomPoint() {
@@ -52,7 +58,7 @@ function addTagToScene(x, y, z) {
   return sphere;
 }
 
-function init() {
+function init(): GameEvents {
   var canvas: HTMLCanvasElement = document.getElementById('snakeCanvas') as HTMLCanvasElement;
 
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
@@ -169,6 +175,11 @@ function init() {
 
   // first default  move
   keyActions['left'].action();
+
+  return {
+    turnLeft: keyActions.left.action,
+    turnRight: keyActions.right.action,
+  };
 }
 
 function animate() {
