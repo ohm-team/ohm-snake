@@ -47,12 +47,15 @@ body {
   left: 0;
   display: none;
 }
-.photo-canvas{
+
+.photo-canvas {
   left: -200%
 }
+
 .snake-canvas {
   display: block;
 }
+
 $bg: #74ffb0;
 #gifContainer {
   height: 300px;
@@ -74,6 +77,25 @@ $bg: #74ffb0;
   img {
     position: relative;
   }
+  
+  img + .share {
+    content: 'Share';
+    color: white;
+    position: absolute;
+    display: block;
+    bottom: 10px;
+    right: 10px;
+    /*
+    &:before {
+      background-image: url(https://image.pngaaa.com/850/1385850-small.png);
+      display: inline-block;
+      content: '';
+      width: 10px;
+      height: 10px;
+    }
+    */
+    
+  }
 }
 
 .title-gameover {
@@ -89,9 +111,9 @@ $bg: #74ffb0;
 
 .replay {
   
-  $top-pad : 6px;
-  $side-pad : 15px;
-  $border-size :2px;
+  $top-pad: 6px;
+  $side-pad: 15px;
+  $border-size: 2px;
   
   position: relative;
   display: inline-block;

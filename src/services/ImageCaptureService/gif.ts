@@ -1,4 +1,4 @@
-import { share } from '../ShareService/share';
+import { canShare, share } from '../ShareService/share';
 import gifshot from './gifshot';
 
 export const gif = (imgs: any[], containerSelector: string) => {
@@ -17,9 +17,13 @@ export const gif = (imgs: any[], containerSelector: string) => {
         $(containerSelector + ' img').remove();
 
         $(containerSelector).append(animatedImage);
-        $(containerSelector + ' img').click(async () => {
-          await share(image);
-        });
+        $(containerSelector + ' img').insertBefore('#share');
+        if (canShare()) {
+          $('#share').show();
+          $(containerSelector + ' img').click(async () => {
+            await share(image);
+          });
+        }
       }
     }
   );

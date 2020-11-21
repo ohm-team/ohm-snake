@@ -1,15 +1,20 @@
+const { detect } = require('detect-browser');
+const browser = detect();
+
+export const canShare = (): boolean => {
+  console.log(browser.os);
+  return ['Android OS', 'Mac OS', 'Windows 10', 'Linux', 'Chrome OS'].includes(browser.os);
+};
 export const share = async (base64url: string) => {
-  console.log(base64url.substr(0, 30));
   const blob = await (await fetch(base64url)).blob();
-  const file = new File([blob], 'fileName.gif', { type: blob.type });
+  const file = new File([blob], 'myHappyGif.gif', { type: blob.type });
 
   try {
     navigator.share({
-      url: base64url,
+      files: [file],
     } as any);
   } catch (e) {
-    download(blob, 'fileName.gif');
-    console.log('sharing failed');
+    download(blob, 'myHappyGif.gif');
   }
 };
 
