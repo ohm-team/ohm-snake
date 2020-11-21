@@ -49,6 +49,7 @@ const startGame = async (playerName: string) => {
     saySomething(PHRASES.HELLO);
     await takePhoto();
   } catch (e) {
+    console.log(e);
     alert(e);
   }
 };
