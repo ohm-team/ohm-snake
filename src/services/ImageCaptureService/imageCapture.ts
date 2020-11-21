@@ -22,10 +22,8 @@ export const takePhoto = async () => {
     .then((blob) => createImageBitmap(blob))
     .then((imageBitmap) => {
       const canvas: HTMLCanvasElement = document.querySelector('#takePhotoCanvas');
-
       canvas.style.display = 'block';
       drawCanvas(canvas, imageBitmap);
-      debugger;
       photos.push(canvas.toDataURL('image/jpeg'));
     })
     .catch((e) => {

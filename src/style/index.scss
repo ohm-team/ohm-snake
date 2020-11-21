@@ -53,5 +53,17 @@ body {
 }
 
 #gifContainer {
-  position: absolute;
+
+}
+
+.title-gameover {
+    margin-top: -60px;
+    margin-bottom: 10px;
+}
+
+.replay {
+  svg {
+    width: 50px;
+    height: 50px;
+  }
 }
