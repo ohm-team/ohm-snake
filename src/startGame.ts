@@ -1,6 +1,7 @@
 import { startSnakeGame } from './game';
 import { enableControls, Movement } from './services/HeadControlService';
 import { makeGif, takePhoto } from './services/ImageCaptureService/imageCapture';
+import { playBoo } from './services/MusicService';
 import { listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
 import { PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 
@@ -21,9 +22,11 @@ export const startGameController = async (playerName: string) => {
       takePhoto();
       if (movement === 'left') {
         turnLeft();
+        playBoo();
       }
       if (movement === 'right') {
         turnRight();
+        playBoo();
       }
     };
     enableControls({ onMovement: handleMovement });
