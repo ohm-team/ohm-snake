@@ -1,8 +1,10 @@
+import './declare';
+import './game';
 import { enableMobileConsole } from './console';
+import { startSnakeGame } from './game';
 import { initHeadControl } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
-import './declare';
 import './style/index.scss';
 
 const startButton = $('#startButton');
@@ -47,7 +49,8 @@ const startGame = async (playerName: string) => {
     startScreen.hide();
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
-    await takePhoto();
+    startSnakeGame();
+    //await takePhoto();
   } catch (e) {
     console.log(e);
     alert(e);
