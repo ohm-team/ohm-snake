@@ -1,4 +1,6 @@
-export type MOVEMENT = 'up' | 'down' | 'left' | 'right' | 'mouse opened' | 'mouse closed';
+export type Movement = 'up' | 'down' | 'left' | 'right' | 'mouth opened' | 'mouth closed';
+
+export const EVENT_MOVEMENT = 'movement';
 
 type ERROR_CODE =
   | 'GL_INCOMPATIBLE'
@@ -134,12 +136,16 @@ class HeadControlService extends EventTarget {
     mouthOpening = Math.min(Math.max(mouthOpening, 0), 1);
     if (mouthOpening > this.settings.mouseOpeningTreshold && !this.movementLocks.mouseOpened) {
       this.movementLocks.mouseOpened = true;
-      this.dispatchEvent(new Event('mouse opened'));
+      this.dispatchEvent(
+        new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: 'mouth opened' })
+      );
       return;
     }
     if (mouthOpening < this.settings.mouseClosingTreshold && this.movementLocks.mouseOpened) {
       this.movementLocks.mouseOpened = false;
-      this.dispatchEvent(new Event('mouse closed'));
+      this.dispatchEvent(
+        new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: 'mouth closed' })
+      );
       return;
     }
   };
@@ -161,17 +167,21 @@ class HeadControlService extends EventTarget {
   }: {
     axis: 'horizontal' | 'vertical';
     axisPosition: number;
-    maxValue: MOVEMENT;
-    minValue: MOVEMENT;
+    maxValue: Movement;
+    minValue: Movement;
   }) => {
     if (axisPosition < -1 * this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;
-      this.dispatchEvent(new Event(minValue));
+      this.dispatchEvent(
+        new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: minValue })
+      );
       return;
     }
     if (axisPosition > this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;
-      this.dispatchEvent(new Event(maxValue));
+      this.dispatchEvent(
+        new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: maxValue })
+      );
       return;
     }
     if (axisPosition > -1 * this.settings.headMovementStoppedTreshold && axisPosition < this.settings.headMovementStoppedTreshold) {

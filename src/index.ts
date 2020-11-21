@@ -2,7 +2,7 @@ import { enableMobileConsole } from './console';
 import './declare';
 import './game';
 import { startSnakeGame } from './game';
-import { enableControls, initHeadControl, MOVEMENT } from './services/HeadControlService';
+import { enableControls, initHeadControl, Movement } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
@@ -77,7 +77,7 @@ const startGame = async (playerName: string) => {
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
     const { turnLeft, turnRight } = startSnakeGame();
-    const handleMovement = (movement: MOVEMENT) => {
+    const handleMovement = (movement: Movement) => {
       if (movement === 'left') {
         turnLeft();
       }

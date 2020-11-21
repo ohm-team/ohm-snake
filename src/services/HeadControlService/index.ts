@@ -1,10 +1,8 @@
-import HeadControlService, { MOVEMENT } from './HeadControlService';
-
-export { default } from './HeadControlService';
+import HeadControlService, { EVENT_MOVEMENT, Movement } from './HeadControlService';
+export type { Movement };
 
 let headControlService: HeadControlService;
 
-export type { MOVEMENT };
 export const initHeadControl = ({ onCameraPersmissionFailed }: { onCameraPersmissionFailed: () => void }): Promise<void> => {
   return new Promise((resolve, reject) => {
     headControlService = new HeadControlService('head-preview', {
@@ -22,17 +20,17 @@ export const getVideoElement = (): HTMLVideoElement => {
   return headControlService.getVideoElement();
 };
 
-export const enableControls = ({ onMovement }: { onMovement: (movement: MOVEMENT) => void }) => {
+let movementEventHandler: (ev: CustomEvent<Movement>) => void;
+
+export const enableControls = ({ onMovement }: { onMovement: (movement: Movement) => void }) => {
   headControlService.toggle(true);
-  headControlService.addEventListener('mouse opened', () => onMovement('mouse opened'));
-  headControlService.addEventListener('mouse closed', () => onMovement('mouse closed'));
-  headControlService.addEventListener('left', () => onMovement('left'));
-  headControlService.addEventListener('right', () => onMovement('right'));
-  headControlService.addEventListener('up', () => onMovement('up'));
-  headControlService.addEventListener('down', () => onMovement('down'));
+  movementEventHandler = (ev) => onMovement(ev.detail);
+  headControlService.addEventListener(EVENT_MOVEMENT, movementEventHandler);
 };
 
 export const disableControls = () => {
-  // TODO unregister
   headControlService.toggle(false);
+  if (movementEventHandler) {
+    headControlService.removeEventListener(EVENT_MOVEMENT, movementEventHandler);
+  }
 };
