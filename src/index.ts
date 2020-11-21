@@ -7,6 +7,7 @@ import { initVisibilityService } from './services/VisibilityService';
 import { initVoiceService } from './services/VoiceService/voice';
 import { startGameController } from './startGame';
 import './style/index.scss';
+import initMusicService, { playBoo, playMusic, renderDebugButtons } from './services/MusicService';
 
 const startButton = $('#startButton');
 const preloader = $('#preloader');
@@ -22,6 +23,7 @@ const initAllAPI = async () => {
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
     initVisibilityService(),
+    initMusicService(),
   ])
     .then(() => {
       preloader.hide();
@@ -62,6 +64,8 @@ const startGame = async (playerName: string) => {
   gameScreen.show();
   startScreen.hide();
   startGameController(playerName);
+  playMusic();
+  renderDebugButtons();
 };
 
 window.onload = async () => {
