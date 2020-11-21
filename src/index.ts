@@ -36,18 +36,18 @@ const initApp = async () => {
   });
 
   startButton.click(async () => {
-    console.log('start game');
     await startGame(nameInput.val() as string);
   });
 };
 
 const startGame = async (playerName: string) => {
   try {
-    await takePhoto();
+    console.log('start game');
     gameScreen.show();
     startScreen.hide();
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
+    await takePhoto();
   } catch (e) {
     alert(e);
   }
