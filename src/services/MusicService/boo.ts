@@ -13,10 +13,8 @@ export default () => {
 };
 
 function init() {
-  const AudioContextInstance = window.AudioContext || (window as any).webkitAudioContext;
-
   // @ts-ignore
-  const audioCtx = new AudioContextInstance();
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 
