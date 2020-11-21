@@ -72,6 +72,7 @@ class HeadControlService extends EventTarget {
   private glHeadSearchDrawShaderProgram = null;
   private headSearchUniformXys = null;
   private headSearchUniformVideoTransformMat2 = null;
+  private videoElement: HTMLVideoElement;
 
   constructor(canvasId: string, settings: Partial<HeadControlServiceSettings>) {
     super();
@@ -94,7 +95,7 @@ class HeadControlService extends EventTarget {
         this.videoTexture = jeeFaceFilterObj['videoTexture'];
         this.videoTransformMat2 = jeeFaceFilterObj['videoTransformMat2'];
         this.cv = jeeFaceFilterObj['canvasElement'];
-
+        this.videoElement = jeeFaceFilterObj.videoElement;
         this.initHeadSearchDraw();
         this.state.isLoaded = true;
         settings.onReady && settings.onReady();
@@ -110,6 +111,10 @@ class HeadControlService extends EventTarget {
         this.handleMouseOpening(detectState);
       },
     });
+  }
+
+  public getVideoElement(): HTMLVideoElement {
+    return this.videoElement;
   }
 
   public toggle(isEnabled: boolean): boolean {

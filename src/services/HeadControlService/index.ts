@@ -2,6 +2,8 @@ import HeadControlService, { MOVEMENT } from './HeadControlService';
 
 export { default } from './HeadControlService';
 
+let headControlService: HeadControlService;
+
 export type { MOVEMENT };
 export const initHeadControl = ({
   onMovement,
@@ -11,7 +13,7 @@ export const initHeadControl = ({
   onCameraPersmissionFailed: () => void;
 }): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const headControlService = new HeadControlService('head-preview', {
+    headControlService = new HeadControlService('head-preview', {
       onReady: resolve,
       onCameraPersmissionFailed: onCameraPersmissionFailed,
       onError: reject,
@@ -24,4 +26,11 @@ export const initHeadControl = ({
     headControlService.addEventListener('up', () => onMovement('up'));
     headControlService.addEventListener('down', () => onMovement('down'));
   });
+};
+
+export const getVideoElement = (): HTMLVideoElement => {
+  if (!headControlService) {
+    throw new Error('Call initHeadControl first');
+  }
+  return headControlService.getVideoElement();
 };
