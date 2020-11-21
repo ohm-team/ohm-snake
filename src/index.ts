@@ -30,7 +30,7 @@ const initAllAPI = async () => {
       startScreen.show();
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
     });
 };
 
@@ -60,10 +60,9 @@ const initApp = async () => {
 };
 
 const startGame = async (playerName: string) => {
-  console.log('start game');
   gameScreen.show();
   startScreen.hide();
-  startGameController(playerName);
+  startGameController(playerName, { isDebug: true });
   playMusic();
   renderDebugButtons();
 };

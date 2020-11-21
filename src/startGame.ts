@@ -16,7 +16,7 @@ const onFood = () => {
   saySomething(randomPhrase());
 };
 
-export const startGameController = async (playerName: string) => {
+export const startGameController = async (playerName: string, { isDebug }: { isDebug: boolean }) => {
   try {
     setUpUser(playerName);
     saySomething(HELLO_PHRASE);
@@ -25,12 +25,28 @@ export const startGameController = async (playerName: string) => {
     const handleMovement = (movement: Movement) => {
       takePhoto();
       if (movement === 'left') {
+        if (isDebug) {
+          console.log('Head left');
+        }
         turnLeft();
         playBoo();
       }
       if (movement === 'right') {
+        if (isDebug) {
+          console.log('Head right');
+        }
         turnRight();
         playBoo();
+      }
+      if (movement === 'mouth opened') {
+        if (isDebug) {
+          console.log('Mouth opened');
+        }
+      }
+      if (movement === 'mouth closed') {
+        if (isDebug) {
+          console.log('Mouth closed');
+        }
       }
     };
     enableControls({ onMovement: handleMovement });

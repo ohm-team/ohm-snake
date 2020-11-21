@@ -8,7 +8,6 @@ export const initVoiceService = async () => {
         initVoiceService().then(resolve);
         return;
       }
-      console.log('voice init');
       resolve(true);
     }, 500);
   });

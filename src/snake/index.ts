@@ -57,14 +57,12 @@ Snake.prototype = {
     this.init();
   },
   selfCollision: function () {
-    console.log('self collision');
     this.onSelfCollision();
     this.alive = false;
     this.clear();
   },
   tagCollision: function () {
     this.speed = snakeSpeeds[this.speedLevel++] || snakeSpeeds[snakeSpeeds.length - 1];
-    console.log('speed', this.speed);
     this.onTagCollision();
     this.addCube();
   },
@@ -212,22 +210,18 @@ Snake.prototype = {
   back: function () {
     this.axis = 'z';
     this.direction = -1;
-    console.log('back');
   },
   forward: function () {
     this.axis = 'z';
     this.direction = 1;
-    console.log('fwd');
   },
   right: function () {
     this.axis = 'x';
     this.direction = 1;
-    console.log('right');
   },
   left: function () {
     this.axis = 'x';
     this.direction = -1;
-    console.log('left');
   },
   clear: function () {
     this.axis = null;

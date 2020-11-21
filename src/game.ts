@@ -165,11 +165,6 @@ function init(onGamaOver, onFood: Function = () => {}): GameEvents {
     var keyAction = keyActions[keys[e.keyCode]];
     if (keyAction && keyAction.enabled) {
       keyAction.action();
-      // if (raf) {
-      //   win.cancelAnimationFrame(raf);
-      // }
-      // // console.log('aaas')
-      // raf = win.requestAnimationFrame(triggerRenders);
     }
   }
 
