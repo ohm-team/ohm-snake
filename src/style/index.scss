@@ -4,6 +4,8 @@
 @import "./console";
 @import "./loader";
 
+$background-gradient: linear-gradient(to bottom, #aaffa9, #11ffbd);
+
 body, html {
   margin: 0;
 }
@@ -15,7 +17,6 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(to bottom, #aaffa9, #11ffbd);
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
@@ -25,6 +26,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: $background-gradient;
   flex-direction: column;
   font-size: 18px;
 }
