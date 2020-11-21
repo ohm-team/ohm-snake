@@ -1,7 +1,5 @@
 import * as THREE from 'three';
-import { Line } from 'three';
 import { Snake } from './snake';
-import { pathLine, addPointToPath, setPosition, updateFirstPointInPath, pathPoints } from './snake/points';
 
 interface GameEvents {
   turnLeft: () => void;
@@ -74,7 +72,7 @@ function init(): GameEvents {
 
   cameraGoal = new THREE.Object3D();
   //  --- Snake ---
-  snake = new Snake(scene, unitSize, 0x00ff00, cameraGoal, pathPoints);
+  snake = new Snake(scene, unitSize, 0x00ff00, cameraGoal);
   snake.render();
 
   snake.onTagCollision = function () {
@@ -84,10 +82,7 @@ function init(): GameEvents {
   };
   snake.onSelfCollision = function () {
     snake.reset();
-    // snake.getHead.
   };
-
-  scene.add(pathLine);
 
   cameraGoal.position.set(0, 0.4, -0.5);
 
@@ -125,7 +120,6 @@ function init(): GameEvents {
     right: {
       enabled: true,
       action: function () {
-        addPointToPath(snake.getPositionAsVector());
         snake.turn('right');
         // keyActions.left.enabled = false;
         // keyActions.forward.enabled = true;
@@ -136,7 +130,6 @@ function init(): GameEvents {
     left: {
       enabled: true,
       action: function () {
-        addPointToPath(snake.getPositionAsVector());
         snake.turn('left');
         // keyActions.right.enabled = false;
         // keyActions.backward.enabled = true;
@@ -207,10 +200,6 @@ function animate() {
   camera.lookAt(snake.getHead().position);
   // }
   renderCounter++;
-
-  updateFirstPointInPath(snake.getPositionAsVector());
-  setPosition();
-  pathLine.geometry.attributes.position.needsUpdate = true;
 
   temp.setFromMatrixPosition(snake.cameraGoal.matrixWorld);
   camera.position.lerp(temp, 0.05);
