@@ -134,6 +134,7 @@ function init(onGamaOver): GameEvents {
   snake.render();
 
   snake.onTagCollision = function () {
+    // KATYA
     scene.remove(tag);
     tag = addTagToScene(randomAxis(), unitSize, randomAxis());
     // setScore();
