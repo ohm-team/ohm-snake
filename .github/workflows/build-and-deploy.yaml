@@ -9,10 +9,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node
-        uses: actions/setup-node@v2.1.0
+      - uses: actions/setup-node@v2-beta
         with:
-          node-version: "12.x"
+          node-version: '13'
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - run: npm install
       - run: npm run build:ci

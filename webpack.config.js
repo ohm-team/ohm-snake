@@ -1,5 +1,7 @@
 //webpack.config.js
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: "development",
@@ -9,11 +11,19 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: "bundle.js" // <--- Will be compiled to this single file
+    filename: "[name].[contenthash].js"
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Emotional Snake'
+    }),
+  ],
   module: {
     rules: [
       {
@@ -24,11 +34,12 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
           "css-loader",
           // Compiles Sass to CSS
           "sass-loader",
+          "postcss-loader"
         ],
       },
     ]
