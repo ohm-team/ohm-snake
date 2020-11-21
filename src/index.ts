@@ -8,7 +8,8 @@ import { enableMobileConsole } from './console';
 enableMobileConsole();
 
 document.addEventListener('DOMContentLoaded', () => {
-  const headControlService = new HeadControlService();
+  const headControlService = new HeadControlService('head-preview', { disableRestPosition: false });
+  headControlService.toggle(true);
   headControlService.addEventListener('down', () => console.log('down'));
   headControlService.addEventListener('up', () => console.log('up'));
   headControlService.addEventListener('left', () => console.log('left'));
