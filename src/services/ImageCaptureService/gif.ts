@@ -20,7 +20,7 @@ export const gif = (imgs: any[], containerSelector: string) => {
         $(containerSelector + ' img').insertBefore('#share');
         if (canShare()) {
           $('#share').show();
-          $(containerSelector + ' img').click(async () => {
+          $(containerSelector).click(async () => {
             await share(image);
           });
         }

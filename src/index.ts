@@ -36,29 +36,26 @@ const initAllAPI = async () => {
       console.error(e);
     });
 };
-
+const onInput = () => {
+  if (nameInput.val()) {
+    startButton.removeClass('disabled');
+  } else {
+    startButton.addClass('disabled');
+  }
+};
 const initApp = async () => {
-  //const fb = document.getElementById('faceButton');
-  //
-  //fb.addEventListener('click', async () => {
-  //  console.log('photo ebla');
-  //  gameScreen.show();
-  //  startScreen.hide();
-  //});
   preloader.show();
   gameScreen.hide();
   startScreen.hide();
   await initAllAPI();
-  nameInput.on('input', () => {
-    if (nameInput.val()) {
-      startButton.prop('disabled', false);
-    } else {
-      startButton.prop('disabled', true);
-    }
-  });
+  nameInput.val(localStorage.getItem('name') || '');
+  onInput();
+  nameInput.on('input', onInput);
 
   startButton.click(async () => {
-    await startGame(nameInput.val() as string);
+    const name = nameInput.val() as string;
+    localStorage.setItem('name', name);
+    await startGame(name);
   });
 };
 
