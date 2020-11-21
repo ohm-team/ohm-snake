@@ -1,5 +1,7 @@
 export const DEGTORAD = 0.01745327;
 
+export const choice = (array: number[]) => array[Math.floor(Math.random() * array.length)];
+
 export const dist = ([x1, y1, z1], [x2, y2, z2]) => {
   var a = x1 - x2;
   var b = z1 - z2;

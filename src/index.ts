@@ -70,6 +70,6 @@ const startGame = async (playerName: string) => {
 
 window.onload = async () => {
   enableMobileConsole();
-  // startGame('Goooseman');
-  await initApp();
+  startGame('Goooseman');
+  // await initApp();
 };

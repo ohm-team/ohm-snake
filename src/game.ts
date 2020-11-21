@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Snake } from './snake';
 import { buildField } from './snake/field';
 import { fieldSize } from './snake/config';
+import { getApple } from './snake/models';
 
 interface GameEvents {
   turnLeft: () => void;
@@ -55,33 +56,10 @@ function randomAxis() {
 }
 
 function addTagToScene(x, y, z) {
-  const collider = new THREE.BoxBufferGeometry(unitSize, unitSize, unitSize);
-  const food = new THREE.Mesh(
-    collider,
-    new THREE.MeshBasicMaterial({
-      opacity: 0,
-      transparent: true,
-    })
-  );
-  food.name = `Food`;
-  var foodGroup = new THREE.Group();
-  foodGroup.rotateY(Math.PI / 2);
-  // @ts-ignore
-  const loader = new THREE.FBXLoader();
-  loader.load('./models/fruit.fbx', function (object: THREE.Group) {
-    object.name = `FoodFBX`;
-    object.scale.set(0.1, 0.1, 0.1);
-    // @ts-ignore
-    object.children[2].material = new THREE.MeshLambertMaterial({
-      color: 0x5c0b0d,
-    });
-    foodGroup.add(object);
-  });
-  food.add(foodGroup);
-  food.position.set(x, y, z);
-  scene.add(food);
+  const apple = getApple(x, y, z, fieldSize.unitSize);
+  scene.add(apple);
   snake.setCurrentTagPosition({ x: x, y: y, z: z });
-  return food;
+  return apple;
 }
 
 const createLights = (scene: THREE.Scene) => {
