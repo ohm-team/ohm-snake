@@ -28,8 +28,8 @@ var keys = {
   32: 'pause', // spacebar
 };
 
-export const startSnakeGame = (): GameEvents => {
-  const events = init();
+export const startSnakeGame = (onGamaOver): GameEvents => {
+  const events = init(onGamaOver);
   animate();
   return events;
 };
@@ -58,7 +58,7 @@ function addTagToScene(x, y, z) {
   return sphere;
 }
 
-function init(): GameEvents {
+function init(onGamaOver): GameEvents {
   var canvas: HTMLCanvasElement = document.getElementById('snakeCanvas') as HTMLCanvasElement;
 
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
@@ -81,6 +81,7 @@ function init(): GameEvents {
     // setScore();
   };
   snake.onSelfCollision = function () {
+    onGamaOver();
     snake.reset();
   };
 
