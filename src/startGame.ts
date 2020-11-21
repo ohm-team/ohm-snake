@@ -33,14 +33,14 @@ export const startGameController = async (playerName: string, { isDebug }: { isD
           console.log('Head left');
         }
         turnLeft();
-        playBoo();
+        playBoo('left');
       }
       if (movement === 'right') {
         if (isDebug) {
           console.log('Head right');
         }
         turnRight();
-        playBoo();
+        playBoo('right');
       }
       if (movement === 'mouth opened') {
         if (isDebug) {

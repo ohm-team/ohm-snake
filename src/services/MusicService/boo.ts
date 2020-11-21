@@ -1,8 +1,8 @@
 import ADSREnvelope from 'adsr-envelope';
 
 export default () => {
-  return () => {
-    const audioCtx = init();
+  return (direction: 'right' | 'left') => {
+    const audioCtx = init(direction);
   };
   // const limit = () => setTimeout(() => audioCtx.suspend(), 750);
   // limit();
@@ -16,14 +16,14 @@ export default () => {
   // };
 };
 
-function init() {
+function init(direction: 'right' | 'left') {
   // @ts-ignore
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 
   oscillator.type = 'sine';
-  oscillator.frequency.value = 392;
+  oscillator.frequency.value = direction == 'right' ? 392 : 349.23;
   // gainNode.gain.value = 0.0;
 
   let adsr = new ADSREnvelope({
