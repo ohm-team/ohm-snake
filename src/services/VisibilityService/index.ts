@@ -1,10 +1,25 @@
-import VisibilityService, { VISIBILITY_STATE } from './VisibilityService';
+import VisibilityService, { EVENT_CHANGE, VisibilityState } from './VisibilityService';
 
-export type { VISIBILITY_STATE };
+export type { VisibilityState };
 
-export const initVisibilityService = ({ onVisibilityChange }: { onVisibilityChange: (visibility: VISIBILITY_STATE) => void }): Promise<void> => {
-  const visibilityService = new VisibilityService();
-  visibilityService.addEventListener('visible' as VISIBILITY_STATE, () => onVisibilityChange('visible'));
-  visibilityService.addEventListener('invisible' as VISIBILITY_STATE, () => onVisibilityChange('invisible'));
+let visibilityService: VisibilityService;
+
+export const initVisibilityService = (): Promise<void> => {
+  visibilityService = new VisibilityService();
+
   return Promise.resolve();
+};
+
+let changeEventHandler: (ev: CustomEvent<VisibilityState>) => void;
+
+export const listenForVisibilityChange = ({ onVisibilityChange }: { onVisibilityChange: (visibility: VisibilityState) => void }) => {
+  changeEventHandler = (ev: CustomEvent<VisibilityState>) => onVisibilityChange(ev.detail);
+  visibilityService.addEventListener(EVENT_CHANGE, changeEventHandler);
+};
+
+export const unListenForVisibilityChange = () => {
+  if (!changeEventHandler) {
+    return;
+  }
+  visibilityService.removeEventListener(EVENT_CHANGE, changeEventHandler);
 };

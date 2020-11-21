@@ -6,7 +6,7 @@ import { enableControls, initHeadControl, Movement } from './services/HeadContro
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
-import { initVisibilityService, VISIBILITY_STATE } from './services/VisibilityService';
+import { initVisibilityService, listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
 
 const startButton = $('#startButton');
 const preloader = $('#preloader');
@@ -15,24 +15,13 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  const handleVisibilityChange = (visibilityState: VISIBILITY_STATE) => {
-    if (visibilityState === 'visible') {
-      console.log('unpause!');
-      return;
-    }
-    console.log('pause!');
-    return;
-  };
-
   return Promise.all([
     initImageCapture(),
     initVoiceService(),
     initHeadControl({
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
-    initVisibilityService({
-      onVisibilityChange: handleVisibilityChange,
-    }),
+    initVisibilityService(),
   ])
     .then(() => {
       preloader.hide();
@@ -86,6 +75,15 @@ const startGame = async (playerName: string) => {
       }
     };
     enableControls({ onMovement: handleMovement });
+    const handleVisibilityChange = (visibilityState: VisibilityState) => {
+      if (visibilityState === 'visible') {
+        console.log('unpause!');
+        return;
+      }
+      console.log('pause!');
+      return;
+    };
+    listenForVisibilityChange({ onVisibilityChange: handleVisibilityChange });
     // await takePhoto();
   } catch (e) {
     console.error(e);
