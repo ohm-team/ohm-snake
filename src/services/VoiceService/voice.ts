@@ -13,10 +13,14 @@ export const initVoiceService = async () => {
     }, 500);
   });
 };
-
+export const HELLO_PHRASE = '`Hi, %username%. Have a good game';
 export const PHRASES = {
-  HELLO: '`Hi, %username%. Have a good game',
-  RIGHT: 'Good right turn, %username%',
+  BLOOD: 'First blood!',
+  GOOD: 'You are doing good, %username%',
+  SNAKE: "I'm just a snake, %username%, don't wait too much from me",
+  APPLE: 'An apple a day...',
+  ENJOY: 'I enjoy spending time with you, %username%',
+  TEAM: 'We are a great team, %username%',
 };
 
 let userName = '';
