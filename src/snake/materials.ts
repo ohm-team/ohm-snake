@@ -101,3 +101,11 @@ export const pointsZ = new THREE.PointsMaterial({
   sizeAttenuation: true,
   color: 0x4287f5,
 });
+
+export const snakeMaterialsLookup = {
+  head_GEO: flat_orange,
+  l_sclera_GEO: sclera,
+  r_sclera_GEO: sclera,
+  l_cornea_GEO: cornea,
+  r_cornea_GEO: cornea,
+};
