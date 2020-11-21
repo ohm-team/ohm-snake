@@ -6,6 +6,7 @@ import { initHeadControl, MOVEMENT } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
+import { initVisibilityService, VISIBILITY_STATE } from './services/VisibilityService';
 
 const startButton = $('#startButton');
 const preloader = $('#preloader');
@@ -21,12 +22,25 @@ const initAllAPI = async () => {
     }
     console.log(movement);
   };
+
+  const handleVisibilityChange = (visibilityState: VISIBILITY_STATE) => {
+    if (visibilityState === 'visible') {
+      console.log('unpause!');
+      return;
+    }
+    console.log('pause!');
+    return;
+  };
+
   return Promise.all([
     initImageCapture(),
     initVoiceService(),
     initHeadControl({
       onMovement: handleMovement,
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
+    }),
+    initVisibilityService({
+      onVisibilityChange: handleVisibilityChange,
     }),
   ])
     .then(() => {
@@ -39,7 +53,6 @@ const initAllAPI = async () => {
 };
 
 const initApp = async () => {
-  // temporary code for debugging
   $('#faceButton').click(async () => {
     console.log('poto ebla');
     gameScreen.show();
