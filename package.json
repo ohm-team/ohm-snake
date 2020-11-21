@@ -46,7 +46,10 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
+    "autoprefixer": "^10.0.2",
     "console-subscriber": "^1.0.2",
+    "postcss": "^8.1.8",
+    "postcss-loader": "^4.1.0",
     "three": "^0.122.0"
   }
 }
