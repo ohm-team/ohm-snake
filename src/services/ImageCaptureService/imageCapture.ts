@@ -1,5 +1,6 @@
 import './capturePolyfill';
 import './bitmapPolyfill.ts';
+import { CapturePolyfill } from './capturePolyfill';
 
 let imageCapture;
 let isInit = false;
@@ -54,11 +55,9 @@ export const initImageCapture = async () => {
     .then((mediaStream) => {
       try {
         const track = mediaStream.getVideoTracks()[0];
-        console.log(mediaStream.getVideoTracks());
         imageCapture = new ImageCapture(track);
-        console.log('image capture initied');
       } catch (e) {
-        throw e;
+        imageCapture = CapturePolyfill;
       }
     })
     .catch(() => {
