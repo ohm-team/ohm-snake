@@ -1,7 +1,8 @@
+const url = `${process.env.BASE_DIR}/audio/monsterslap.mp3`;
 export default async function init() {
   // @ts-ignore
   const ctx = new (AudioContext || webkitAudioContext)();
-  const audio = await fetchTrack(ctx, '/audio/monsterslap.mp3');
+  const audio = await fetchTrack(ctx, url);
   let source: AudioBufferSourceNode;
   let lastStop = 0;
   let trackStart = 0;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "BASE_DIR= webpack --watch",
-    "build:ci": "BASE_DIR=ohm-snake webpack --mode=production",
+    "build:ci": "BASE_DIR=/ohm-snake webpack --mode=production",
     "prettier": "prettier --write '**/*.ts'"
   },
   "repository": {

@@ -29,7 +29,7 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "src/services/MusicService/assets", to: `${process.env.BASE_DIR}audio` },
+        { from: "src/services/MusicService/assets", to: 'audio' },
       ],
     }),
   ],
