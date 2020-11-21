@@ -1,10 +1,18 @@
 import * as THREE from 'three';
 import { Snake } from './snake';
+import { buildField } from './snake/field';
+import { fieldSize } from './snake/config';
 
 interface GameEvents {
   turnLeft: () => void;
   turnRight: () => void;
 }
+
+const FIELD_SIZE = {
+  x: gridSize,
+  y: gridSize,
+  z: gridSize,
+};
 
 var camera, scene, renderer, mesh, cameraGoal, snake, tag;
 
@@ -139,10 +147,7 @@ function init(onGamaOver): GameEvents {
 
   tag = addTagToScene(randomAxis(), unitSize / 2, randomAxis());
 
-  var gridHelper = new THREE.GridHelper(gridSize, 50);
-  scene.add(gridHelper);
-
-  scene.add(new THREE.AxesHelper());
+  buildField(scene, fieldSize);
 
   renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
