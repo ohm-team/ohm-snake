@@ -2,7 +2,7 @@ import { enableMobileConsole } from './console';
 import './declare';
 import './game';
 import { startSnakeGame } from './game';
-import { initHeadControl, MOVEMENT } from './services/HeadControlService';
+import { MOVEMENT } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
