@@ -2,7 +2,7 @@ import { enableMobileConsole } from './console';
 import './declare';
 import './game';
 import { startSnakeGame } from './game';
-import { initHeadControl, MOVEMENT } from './services/HeadControlService';
+import { enableControls, initHeadControl, MOVEMENT } from './services/HeadControlService';
 import { initImageCapture, takePhoto } from './services/ImageCaptureService/imageCapture';
 import { initVoiceService, PHRASES, saySomething, setUpUser } from './services/VoiceService/voice';
 import './style/index.scss';
@@ -15,14 +15,6 @@ const gameScreen = $('#game');
 const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
-  const handleMovement = (movement: MOVEMENT) => {
-    if (movement === 'up' || movement === 'down') {
-      // ignore up and down
-      return;
-    }
-    console.log(movement);
-  };
-
   const handleVisibilityChange = (visibilityState: VISIBILITY_STATE) => {
     if (visibilityState === 'visible') {
       console.log('unpause!');
@@ -36,7 +28,6 @@ const initAllAPI = async () => {
     initImageCapture(),
     //initVoiceService(),
     initHeadControl({
-      onMovement: handleMovement,
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
     initVisibilityService({
@@ -86,9 +77,18 @@ const startGame = async (playerName: string) => {
     setUpUser(playerName);
     saySomething(PHRASES.HELLO);
     const { turnLeft, turnRight } = startSnakeGame();
+    const handleMovement = (movement: MOVEMENT) => {
+      if (movement === 'left') {
+        turnLeft();
+      }
+      if (movement === 'right') {
+        turnRight();
+      }
+    };
+    enableControls({ onMovement: handleMovement });
     // await takePhoto();
   } catch (e) {
-    console.log(e);
+    console.error(e);
     alert(e);
   }
 };
