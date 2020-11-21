@@ -1,5 +1,6 @@
 //webpack.config.js
 const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -32,6 +33,9 @@ module.exports = {
         { from: "src/services/MusicService/assets", to: 'audio' },
       ],
     }),
+    new webpack.DefinePlugin({
+      'BASE_DIR': JSON.stringify(process.env.BASE_DIR)
+    })
   ],
   module: {
     rules: [

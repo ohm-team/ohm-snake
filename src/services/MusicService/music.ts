@@ -1,5 +1,6 @@
-const BASE_DIR = '/ohm-snake';
+// @ts-ignore
 const url = `${BASE_DIR}/audio/monsterslap.mp3`;
+console.log({ url });
 export default async function init() {
   // @ts-ignore
   const ctx = new (AudioContext || webkitAudioContext)();
