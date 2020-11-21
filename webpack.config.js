@@ -3,6 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -25,6 +26,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ['*.*']
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "src/services/MusicService/assets", to: "audio" },
+      ],
     }),
   ],
   module: {
