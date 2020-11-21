@@ -14,14 +14,19 @@ export const initVoiceService = async () => {
   });
 };
 export const HELLO_PHRASE = '`Hi, %username%';
-export const PHRASES = {
-  BLOOD: 'First blood!',
-  GOOD: 'You are doing good, %username%',
-  SNAKE: "I'm just a snake, %username%, don't wait too much from me",
-  APPLE: 'An apple a day...',
-  ENJOY: 'I enjoy spending time with you, %username%',
-  TEAM: 'We are a great team, %username%',
-};
+export const PHRASES = [
+  'First blood!',
+  'You are doing great, %username%',
+  'Say hi to a LuckyWheel hackathon organizers, %username%',
+  "I'm just a snake, %username%, don't wait too much from me",
+  'An apple a day...you know',
+  'What are you doing tomorrow, %username%? Come play with me again',
+  'I am hungry!',
+  'Apple and snake...Truly biblical story',
+  'Yummy, want a bite, %username%?',
+  'I enjoy spending time with you, %username%',
+  'Where have you been my whole life, %username%?',
+];
 
 let userName = '';
 
@@ -30,8 +35,7 @@ export const setUpUser = (name: string) => {
 };
 
 export const randomPhrase = () => {
-  const phrases = Object.values(PHRASES);
-  return phrases[Math.floor(Math.random() * phrases.length)];
+  return PHRASES[Math.floor(Math.random() * PHRASES.length)];
 };
 
 export const saySomething = (text: string) => {
