@@ -4,9 +4,11 @@ export type { VisibilityState };
 
 let visibilityService: VisibilityService;
 
-export const initVisibilityService = (): Promise<void> => {
+export const initVisibilityService = ({ isDebug }: { isDebug: boolean }): Promise<void> => {
   visibilityService = new VisibilityService();
-
+  if (isDebug) {
+    console.log('VisibilityService is initialised');
+  }
   return Promise.resolve();
 };
 

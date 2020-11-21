@@ -1,12 +1,15 @@
 let VOICE;
 
-export const initVoiceService = async () => {
+export const initVoiceService = async ({ isDebug }: { isDebug: boolean }) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       VOICE = window.speechSynthesis.getVoices().find(({ lang }) => lang === 'en-GB');
       if (!VOICE) {
         initVoiceService().then(resolve);
         return;
+      }
+      if (isDebug) {
+        console.log('VoiceService is initialised');
       }
       resolve(true);
     }, 500);

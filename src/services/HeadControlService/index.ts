@@ -3,10 +3,21 @@ export type { Movement };
 
 let headControlService: HeadControlService;
 
-export const initHeadControl = ({ onCameraPersmissionFailed }: { onCameraPersmissionFailed: () => void }): Promise<void> => {
+export const initHeadControl = ({
+  onCameraPersmissionFailed,
+  isDebug,
+}: {
+  onCameraPersmissionFailed: () => void;
+  isDebug: boolean;
+}): Promise<void> => {
   return new Promise((resolve, reject) => {
     headControlService = new HeadControlService('head-preview', {
-      onReady: resolve,
+      onReady: () => {
+        if (isDebug) {
+          console.log('HeadControlService is initialised');
+        }
+        resolve();
+      },
       onCameraPersmissionFailed: onCameraPersmissionFailed,
       onError: reject,
     });

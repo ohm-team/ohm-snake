@@ -17,13 +17,16 @@ const nameInput = $<HTMLInputElement>('#nameInput');
 
 const initAllAPI = async () => {
   return Promise.all([
-    initImageCapture(),
-    initVoiceService(),
+    initImageCapture({ isDebug: true }),
+    initVoiceService({ isDebug: true }),
     initHeadControl({
+      isDebug: true,
       onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
     }),
-    initVisibilityService(),
-    initMusicService(),
+    initVisibilityService({
+      isDebug: true,
+    }),
+    initMusicService({ isDebug: true }),
   ])
     .then(() => {
       preloader.hide();
