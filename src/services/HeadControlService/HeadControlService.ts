@@ -50,8 +50,8 @@ type DetectState = {
 const defaultSettings: HeadControlServiceSettings = {
   mouseOpeningTreshold: 0.6,
   mouseClosingTreshold: 0.5,
-  headMovementStartedTreshold: 0.17,
-  headMovementStoppedTreshold: 0.164,
+  headMovementStartedTreshold: 0.22,
+  headMovementStoppedTreshold: 0.214,
 };
 
 class HeadControlService extends EventTarget {
