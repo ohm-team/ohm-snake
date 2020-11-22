@@ -19,12 +19,11 @@ export const gif = (imgs: any[], containerSelector: string) => {
         appendElement(containerEl, animatedImage);
         imgEls = document.querySelectorAll(`${containerSelector} img`);
         imgEls.forEach((img) => beforeElement(document.getElementById('share'), img));
-        if (canShare()) {
-          showElement(document.getElementById('share'));
-          containerEl.addEventListener('click', async () => {
-            await share(image);
-          });
-        }
+
+        showElement(document.getElementById('share'));
+        containerEl.addEventListener('click', async () => {
+          await share(image);
+        });
       }
     }
   );

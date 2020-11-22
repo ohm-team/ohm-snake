@@ -7,14 +7,18 @@ export const canShare = (): boolean => {
 };
 export const share = async (base64url: string) => {
   const blob = await (await fetch(base64url)).blob();
-  const file = new File([blob], 'myHappyGif.gif', { type: blob.type });
+  const file = new File([blob], 'emotional-snake.gif', { type: blob.type });
+
+  if (browser.os === 'iOS') {
+    return download(blob, 'emotional-snake.gif');
+  }
 
   try {
     navigator.share({
       files: [file],
     } as any);
   } catch (e) {
-    download(blob, 'myHappyGif.gif');
+    download(blob, 'emotional-snake.gif');
   }
 };
 
