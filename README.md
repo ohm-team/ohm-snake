@@ -1,6 +1,11 @@
 # Emotional Snake
 
 <p align="center">
+  <a href="https://ohm-team.github.io/ohm-snake/">
+    <img alt="Game banner" src="./docs/banner.png"></a>
+</p>
+
+<p align="center">
   <a href="https://github.com/ohm-team/ohm-snake/actions?query=workflow%3Adeploy+branch%3Amaster">
     <img alt="Build status" src="https://img.shields.io/github/workflow/status/ohm-team/ohm-snake/deploy?label=Deploy&style=flat-square"></a>
   <a href="https://github.com/ohm-team/ohm-snake/actions?query=workflow%3Alint+branch%3Amaster">
