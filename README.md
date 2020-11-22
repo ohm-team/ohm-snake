@@ -44,4 +44,9 @@
 
 ### Web API's used
 
-TODO
+- **Image Capture API**: to grab photos of the face during the gameplay to generate a GIF at the end of the game (_a fallback is used on iOS_)
+- **Web Speech API**: to read encouraging phrases during the gameplay
+- **Web Audio API**: to play music and generate sound effects
+- **WebWorkers API**: to generate GIF in the foreground
+- **Navigator.share()**: to share a GIF at the end of the game (_iOS fallbacks to downloading the image_)
+- **Canvas API**: to render the game
