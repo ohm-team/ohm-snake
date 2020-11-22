@@ -21,8 +21,11 @@ document.getElementById('console').addEventListener('click', () => {
   endGame();
 });
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const startGameController = async (playerName: string, { isDebug }: { isDebug: boolean }) => {
   try {
+    await sleep(500);
     alert(`How to play?
 
     ‣ Game uses your phone's front camera. Position your face in front of your phone!
