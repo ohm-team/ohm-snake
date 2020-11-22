@@ -6,7 +6,6 @@ export const gif = (imgs: any[], containerSelector: string) => {
   gifshot.createGIF(
     {
       images: imgs,
-      gifWidth: 300,
       gifHeight: 300,
     },
     function (obj) {
@@ -17,7 +16,6 @@ export const gif = (imgs: any[], containerSelector: string) => {
         let imgEls: NodeListOf<HTMLImageElement> = document.querySelectorAll(`${containerSelector} img`);
         imgEls.forEach((el) => removeElement(el));
         const containerEl: HTMLElement = document.querySelector(containerSelector);
-        console.log(containerSelector, imgEls, containerEl, animatedImage);
         appendElement(containerEl, animatedImage);
         imgEls = document.querySelectorAll(`${containerSelector} img`);
         imgEls.forEach((img) => beforeElement(document.getElementById('share'), img));
