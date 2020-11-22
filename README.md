@@ -12,3 +12,14 @@
 </p>
 
 [Application link](https://ohm-team.github.io/ohm-snake/)
+
+> TODO Short description
+
+- To run the game: `npm start` and visit [https://localhost:8080/](https://localhost:8080/) (It uses a self-signed HTTPS certificate to serve frontend. This is required for some of the API's.)
+- Or visit [application link](https://ohm-team.github.io/ohm-snake/) directly from your mobile browser (both iOS and Android are supported)
+- Access to the camera is required for the head detection feature, please allow when prompted
+- Head tracking feature can be less accurate on low-end mobile phones because of the frontal camera resolution
+
+### Web API's used
+
+TODO
