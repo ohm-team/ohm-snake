@@ -23,6 +23,14 @@ document.getElementById('console').addEventListener('click', () => {
 
 export const startGameController = async (playerName: string, { isDebug }: { isDebug: boolean }) => {
   try {
+    alert(`How to play?
+
+    ‣ Game uses your phone's front camera. Position your face in front of your phone!
+    ‣ Make sure you have no more than 20-40 cm between your face and your camera.
+    ‣ Ensure there is enough light for the face to be visible and clear. The whole face should be in the frame.
+    ‣ Make short head movements to the left and to the right to control the snake accordingly.
+    ‣ Return head to the central position between the moves.
+    ‣ Open your mouth in case you are in trouble! The snake will slow down!`);
     setUpUser(playerName);
     saySomething(HELLO_PHRASE);
 
