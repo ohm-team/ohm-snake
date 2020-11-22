@@ -26,7 +26,7 @@
   </a>
 </p>
 
-[Application link](https://ohm-team.github.io/ohm-snake/)
+[Application link](https://ohm-team.github.io/ohm-snake/) | [Video about the game](https://www.youtube.com/watch?v=NgYeHlh23PE)
 
 > A 3D snake game written in threejs, which uses Tensorflow (ML) to control the snake with head movements. Move your head left and right to control the snake and open your mouth to make the snake slower! All magic is rendered on the screen using Canvas API.
 
