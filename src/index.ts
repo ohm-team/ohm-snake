@@ -7,7 +7,7 @@ import { initVisibilityService } from './services/VisibilityService';
 import { initVoiceService } from './services/VoiceService/voice';
 import { startGameController } from './startGame';
 import './style/index.scss';
-import initMusicService, { playBoo, playMusic, renderDebugButtons } from './services/MusicService';
+import initMusicService, { playMusic } from './services/MusicService';
 import { addClass, hideElement, removeClass, showElement } from './utils/html';
 
 const startButtonEl = document.getElementById('startButton');
@@ -65,7 +65,6 @@ const startGame = async (playerName: string) => {
   hideElement(startScreenEl);
   startGameController(playerName, { isDebug: true });
   playMusic();
-  renderDebugButtons();
 };
 
 window.onload = async () => {
