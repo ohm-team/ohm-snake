@@ -9,7 +9,7 @@ interface GameEvents {
   turnLeft: () => void;
   turnRight: () => void;
   slowDown: () => void;
-  speedUp: () => voide;
+  speedUp: () => void;
 }
 
 const FIELD_SIZE = {
