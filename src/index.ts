@@ -59,6 +59,7 @@ const initApp = async () => {
   startButtonEl.addEventListener('click', async () => {
     const name = nameInputEl.value as string;
     localStorage.setItem('name', name);
+    (document.activeElement as HTMLElement).blur();
     await startGame(name);
   });
 };
