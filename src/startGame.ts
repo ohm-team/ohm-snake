@@ -45,12 +45,14 @@ export const startGameController = async (playerName: string, { isDebug }: { isD
       }
       if (movement === 'mouth opened') {
         slowDown();
+        playBoo('down');
         if (isDebug) {
           console.log('Mouth opened');
         }
       }
       if (movement === 'mouth closed') {
         speedUp();
+        playBoo('up');
         if (isDebug) {
           console.log('Mouth closed');
         }
