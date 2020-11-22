@@ -1,3 +1,4 @@
+import { appendElement, beforeElement, removeElement, showElement } from '../../utils/html';
 import { canShare, share } from '../ShareService/share';
 import gifshot from './gifshot';
 
@@ -13,14 +14,16 @@ export const gif = (imgs: any[], containerSelector: string) => {
         const image = obj.image;
         const animatedImage = document.createElement('img');
         animatedImage.src = image;
-
-        $(containerSelector + ' img').remove();
-
-        $(containerSelector).append(animatedImage);
-        $(containerSelector + ' img').insertBefore('#share');
+        let imgEls: NodeListOf<HTMLImageElement> = document.querySelectorAll(`${containerSelector} img`);
+        imgEls.forEach((el) => removeElement(el));
+        const containerEl: HTMLElement = document.querySelector(containerSelector);
+        console.log(containerSelector, imgEls, containerEl, animatedImage);
+        appendElement(containerEl, animatedImage);
+        imgEls = document.querySelectorAll(`${containerSelector} img`);
+        imgEls.forEach((img) => beforeElement(document.getElementById('share'), img));
         if (canShare()) {
-          $('#share').show();
-          $(containerSelector).click(async () => {
+          showElement(document.getElementById('share'));
+          containerEl.addEventListener('click', async () => {
             await share(image);
           });
         }

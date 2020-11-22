@@ -4,6 +4,7 @@ import { makeGif, takePhoto } from './services/ImageCaptureService/imageCapture'
 import { playBoo, stopMusic, playGameOver } from './services/MusicService';
 import { listenForVisibilityChange, VisibilityState } from './services/VisibilityService';
 import { HELLO_PHRASE, PHRASES, randomPhrase, saySomething, setUpUser } from './services/VoiceService/voice';
+import { hideElement, showElement } from './utils/html';
 
 const delay = (ms = 1000) => new Promise((r) => setTimeout(r, ms));
 
@@ -16,7 +17,7 @@ const onFood = () => {
   saySomething(randomPhrase());
 };
 
-$('#console').click(() => {
+document.getElementById('console').addEventListener('click', () => {
   endGame();
 });
 
@@ -70,9 +71,9 @@ export const startGameController = async (playerName: string, { isDebug }: { isD
 };
 
 const endGame = () => {
-  $('#game').hide();
-  $('#gameover').show();
-  $('#replay').click(() => {
+  hideElement(document.getElementById('game'));
+  showElement(document.getElementById('gameover'));
+  document.getElementById('replay').addEventListener('click', () => {
     window.location.reload();
   });
   disableControls();

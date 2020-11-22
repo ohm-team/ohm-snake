@@ -8,12 +8,13 @@ import { initVoiceService } from './services/VoiceService/voice';
 import { startGameController } from './startGame';
 import './style/index.scss';
 import initMusicService, { playBoo, playMusic, renderDebugButtons } from './services/MusicService';
+import { addClass, hideElement, removeClass, showElement } from './utils/html';
 
-const startButton = $('#startButton');
-const preloader = $('#preloader');
-const startScreen = $('#start');
-const gameScreen = $('#game');
-const nameInput = $<HTMLInputElement>('#nameInput');
+const startButtonEl = document.getElementById('startButton');
+const preloaderEl = document.getElementById('preloader');
+const startScreenEl = document.getElementById('start');
+const gameScreenEl = document.getElementById('game');
+const nameInputEl = document.getElementById('nameInput') as HTMLInputElement;
 
 const initAllAPI = async () => {
   return Promise.all([
@@ -29,39 +30,39 @@ const initAllAPI = async () => {
     initMusicService({ isDebug: true }),
   ])
     .then(() => {
-      preloader.hide();
-      startScreen.show();
+      hideElement(preloaderEl);
+      showElement(startScreenEl);
     })
     .catch((e) => {
       console.error(e);
     });
 };
 const onInput = () => {
-  if (nameInput.val()) {
-    startButton.removeClass('disabled');
+  if (nameInputEl.value) {
+    removeClass(startButtonEl, 'disabled');
   } else {
-    startButton.addClass('disabled');
+    addClass(startButtonEl, 'disabled');
   }
 };
 const initApp = async () => {
-  preloader.show();
-  gameScreen.hide();
-  startScreen.hide();
+  showElement(preloaderEl);
+  hideElement(gameScreenEl);
+  hideElement(startScreenEl);
   await initAllAPI();
-  nameInput.val(localStorage.getItem('name') || '');
+  nameInputEl.value = localStorage.getItem('name') || '';
   onInput();
-  nameInput.on('input', onInput);
+  nameInputEl.addEventListener('input', onInput);
 
-  startButton.click(async () => {
-    const name = nameInput.val() as string;
+  startButtonEl.addEventListener('click', async () => {
+    const name = nameInputEl.value as string;
     localStorage.setItem('name', name);
     await startGame(name);
   });
 };
 
 const startGame = async (playerName: string) => {
-  gameScreen.show();
-  startScreen.hide();
+  showElement(gameScreenEl);
+  hideElement(startScreenEl);
   startGameController(playerName, { isDebug: true });
   playMusic();
   renderDebugButtons();
