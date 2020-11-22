@@ -111,7 +111,7 @@ class HeadControlService extends EventTarget {
         }
 
         this.drawHeadSearch(detectState);
-        this.handleMoveTrhottled(detectState);
+        this.handleMove(detectState);
         this.handleMouseOpening(detectState);
       },
     });
@@ -161,7 +161,7 @@ class HeadControlService extends EventTarget {
     }
   };
 
-  private handleMoveTrhottled = throttle(this.handleMove, 250);
+  private handleMoveTrhottled = throttle(this.handleMove, 0);
 
   private handleAxisMovement = ({
     axis,
