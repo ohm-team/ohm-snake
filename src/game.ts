@@ -8,6 +8,8 @@ import { createLights } from './snake/lights';
 interface GameEvents {
   turnLeft: () => void;
   turnRight: () => void;
+  slowDown: () => void;
+  speedUp: () => voide;
 }
 
 const FIELD_SIZE = {
@@ -29,8 +31,8 @@ var matrix = new THREE.Matrix4();
 var temp = new THREE.Vector3();
 
 var keys = {
-  38: 'backward', // up key
-  40: 'forward', // down key
+  38: 'speedUp', // up key
+  40: 'slowDown', // down key
   39: 'right', // -> key
   37: 'left', // <- key
   87: 'up', // W key
@@ -118,6 +120,26 @@ function init(onGamaOver, onFood: Function = () => {}): GameEvents {
     //     keyActions.pause.enabled = true;
     //   },
     // },
+    speedUp: {
+      enabled: true,
+      action: function () {
+        snake.speedUp();
+        // keyActions.left.enabled = false;
+        // keyActions.forward.enabled = true;
+        // keyActions.backward.enabled = true;
+        // keyActions.pause.enabled = true;
+      },
+    },
+    slowDown: {
+      enabled: true,
+      action: function () {
+        snake.slowDown();
+        // keyActions.left.enabled = false;
+        // keyActions.forward.enabled = true;
+        // keyActions.backward.enabled = true;
+        // keyActions.pause.enabled = true;
+      },
+    },
     right: {
       enabled: true,
       action: function () {
@@ -174,6 +196,8 @@ function init(onGamaOver, onFood: Function = () => {}): GameEvents {
   return {
     turnLeft: keyActions.left.action,
     turnRight: keyActions.right.action,
+    speedUp: keyActions.speedUp.action,
+    slowDown: keyActions.slowDown.action,
   };
 }
 

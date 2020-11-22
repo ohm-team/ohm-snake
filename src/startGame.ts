@@ -26,7 +26,7 @@ export const startGameController = async (playerName: string, { isDebug }: { isD
     setUpUser(playerName);
     saySomething(HELLO_PHRASE);
 
-    const { turnLeft, turnRight } = startSnakeGame(endGame, onFood);
+    const { turnLeft, turnRight, slowDown, speedUp } = startSnakeGame(endGame, onFood);
     const handleMovement = (movement: Movement) => {
       takePhoto();
       if (movement === 'left') {
@@ -44,11 +44,13 @@ export const startGameController = async (playerName: string, { isDebug }: { isD
         playBoo('right');
       }
       if (movement === 'mouth opened') {
+        slowDown();
         if (isDebug) {
           console.log('Mouth opened');
         }
       }
       if (movement === 'mouth closed') {
+        speedUp();
         if (isDebug) {
           console.log('Mouth closed');
         }

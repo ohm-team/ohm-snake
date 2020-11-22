@@ -15,8 +15,8 @@ export function Snake(scene, size, color, cameraGoal) {
   this.initialSize = 4;
   this.speedLevel = 0;
   this.speed = snakeSpeeds[this.speedLevel];
-  this.liveTime = 0;
   this.alive = true;
+  this.slowedDown = false;
 
   this.cameraGoal = cameraGoal;
 
@@ -102,6 +102,12 @@ Snake.prototype = {
   getTail: function () {
     return this.snake[this.snake.length - 1];
   },
+  speedUp: function () {
+    this.slowedDown = false;
+  },
+  slowDown: function () {
+    this.slowedDown = true;
+  },
   addPointToPath: function (point) {
     this.pathPoints.splice(1, 0, point);
   },
@@ -124,15 +130,14 @@ Snake.prototype = {
     this.snake.push(this.createCube({ isHead }));
   },
   render: function () {
-    this.liveTime++;
-
     var self = this;
     this.snake.forEach(function (cube, i) {
       var temp = null;
       if (self.axis !== null && self.direction !== null) {
         if (i === 0) {
           // head
-          cube.position[self.axis] += self.direction * self.speed;
+          const currentSpeed = self.slowedDown ? self.speed / 1.5 : self.speed;
+          cube.position[self.axis] += self.direction * currentSpeed;
           self.position = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
 
           self.updateFirstPoint();
