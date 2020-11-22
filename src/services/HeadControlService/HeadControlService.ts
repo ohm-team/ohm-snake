@@ -138,14 +138,14 @@ class HeadControlService extends EventTarget {
     mouthOpening = Math.min(Math.max(mouthOpening, 0), 1);
     if (mouthOpening > this.settings.mouseOpeningTreshold && !this.movementLocks.mouseOpened) {
       this.movementLocks.mouseOpened = true;
-      this.dispatchEvent(
+      this.disptachEventThrottled(
         new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: 'mouth opened' })
       );
       return;
     }
     if (mouthOpening < this.settings.mouseClosingTreshold && this.movementLocks.mouseOpened) {
       this.movementLocks.mouseOpened = false;
-      this.dispatchEvent(
+      this.disptachEventThrottled(
         new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: 'mouth closed' })
       );
       return;
@@ -161,7 +161,7 @@ class HeadControlService extends EventTarget {
     }
   };
 
-  private handleMoveTrhottled = throttle(this.handleMove, 0);
+  private disptachEventThrottled = throttle(this.dispatchEvent, 350, { leading: true });
 
   private handleAxisMovement = ({
     axis,
@@ -176,14 +176,14 @@ class HeadControlService extends EventTarget {
   }) => {
     if (axisPosition < -1 * this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;
-      this.dispatchEvent(
+      this.disptachEventThrottled(
         new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: minValue })
       );
       return;
     }
     if (axisPosition > this.settings.headMovementStartedTreshold && !this.movementLocks[axis]) {
       this.movementLocks[axis] = true;
-      this.dispatchEvent(
+      this.disptachEventThrottled(
         new CustomEvent<Movement>(EVENT_MOVEMENT, { detail: maxValue })
       );
       return;
