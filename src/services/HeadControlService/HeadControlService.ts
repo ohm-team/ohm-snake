@@ -51,7 +51,7 @@ const defaultSettings: HeadControlServiceSettings = {
   mouseOpeningTreshold: 0.6,
   mouseClosingTreshold: 0.5,
   headMovementStartedTreshold: 0.15,
-  headMovementStoppedTreshold: 0.08,
+  headMovementStoppedTreshold: 0.144,
 };
 
 class HeadControlService extends EventTarget {
@@ -161,7 +161,7 @@ class HeadControlService extends EventTarget {
     }
   };
 
-  private disptachEventThrottled = throttle(this.dispatchEvent, 350, { leading: true });
+  private disptachEventThrottled = throttle(this.dispatchEvent, 500, { leading: true });
 
   private handleAxisMovement = ({
     axis,
