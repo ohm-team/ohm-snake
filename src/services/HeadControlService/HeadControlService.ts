@@ -1,3 +1,5 @@
+import throttle from 'lodash.throttle';
+
 export type Movement = 'up' | 'down' | 'left' | 'right' | 'mouth opened' | 'mouth closed';
 
 export const EVENT_MOVEMENT = 'movement';
@@ -109,7 +111,7 @@ class HeadControlService extends EventTarget {
         }
 
         this.drawHeadSearch(detectState);
-        this.handleMove(detectState);
+        this.handleMoveTrhottled(detectState);
         this.handleMouseOpening(detectState);
       },
     });
@@ -158,6 +160,8 @@ class HeadControlService extends EventTarget {
       this.handleAxisMovement({ axis: 'horizontal', axisPosition: mv.ry, maxValue: 'left', minValue: 'right' });
     }
   };
+
+  private handleMoveTrhottled = throttle(this.handleMove, 250);
 
   private handleAxisMovement = ({
     axis,
