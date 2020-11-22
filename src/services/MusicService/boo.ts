@@ -44,12 +44,13 @@ function init(direction: Direction) {
   }
 
   if (direction === 'up' || direction === 'down') {
-    oscillator.frequency.value = 87.31;
+    oscillator.frequency.value = 174.61;
+    oscillator.type = 'saw';
     // oscillator.frequency.value = direction == 'up' ? 783.99 : 87.31;
 
     adsr = new ADSREnvelope({
       attackTime: direction == 'up' ? 0.1 : 0.5,
-      decayTime: direction == 'up' ? 0.1 : 0.5,
+      decayTime: direction == 'up' ? 0.2 : 0.5,
       sustainLevel: 0.2,
       releaseTime: direction == 'up' ? 0.5 : 1,
       gateTime: 0.5,
