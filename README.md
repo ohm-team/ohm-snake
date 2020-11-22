@@ -20,10 +20,16 @@
 
 > TODO Short description
 
-- To run the game: `npm start` and visit [https://localhost:8080/](https://localhost:8080/) (It uses a self-signed HTTPS certificate to serve frontend. This is required for some of the API's.)
-- Or visit [application link](https://ohm-team.github.io/ohm-snake/) directly from your mobile browser (both iOS and Android are supported)
-- Access to the camera is required for the head detection feature, please allow when prompted
-- Head tracking feature can be less accurate on low-end mobile phones because of the frontal camera resolution
+- To run the game: `npm start` and visit [https://localhost:8080/](https://localhost:8080/) (It uses a self-signed HTTPS certificate to serve frontend. This is required for some of the API's.).
+- Or visit [application link](https://ohm-team.github.io/ohm-snake/) directly from your mobile browser (both iOS and Android are supported).
+- Access to the camera is required to control the snake with head movements, please allow when prompted.
+- Head tracking feature can be less accurate on low-end mobile phones because of the frontal camera resolution.
+- How to play?
+  - Game uses your phone's front camera. Position your face in front of your phone!
+  - Ensure there is enough light for the face to be visible and clear. The whole face should be in the frame.
+  - Make short head movements to the left and to the right to control the snake accordingly.
+  - Return head to the central position between the moves.
+  - Open your mouth in case you are in trouble! The snake will slow down!
 
 ### Web API's used
 
