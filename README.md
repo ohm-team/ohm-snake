@@ -57,3 +57,12 @@
 - **WebWorkers API**: to generate GIF in the foreground
 - **Navigator.share()**: to share a GIF at the end of the game (_iOS fallbacks to downloading the image_)
 - **Canvas API**: to render the game
+
+### Credits
+
+- [Mr.doob](https://github.com/mrdoob) for the [three.js](https://github.com/mrdoob/three.js/)
+- [Jeeliz](https://github.com/jeeliz) for the [jeelizFaceFilter](https://github.com/jeeliz/jeelizFaceFilter)
+- [Yahoo](https://github.com/yahoo) for the [gifshot](https://github.com/yahoo/gifshot)
+- [mohayonao](https://github.com/mohayonao) for the [adsr-envelope](https://github.com/mohayonao/adsr-envelope)
+- [lodash](https://github.com/lodash) for the [lodash.throttle](https://www.npmjs.com/package/lodash.throttle)
+- [AndresMWeber](https://github.com/AndresMWeber) for the [4DSnake](https://github.com/AndresMWeber/4DSnake)
