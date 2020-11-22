@@ -48,20 +48,15 @@ export const initImageCapture = async ({ isDebug }: { isDebug: boolean }) => {
   }
   isInit = true;
 
-  return navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then((mediaStream) => {
-      if (isDebug) {
-        console.log('ImageCaptureService is initialised');
-      }
-      try {
-        const track = mediaStream.getVideoTracks()[0];
-        imageCapture = new ImageCapture(track);
-      } catch (e) {
-        imageCapture = CapturePolyfill;
-      }
-    })
-    .catch(() => {
-      alert('Image capture is not supported on your device :(');
-    });
+  return navigator.mediaDevices.getUserMedia({ video: true }).then((mediaStream) => {
+    if (isDebug) {
+      console.log('ImageCaptureService is initialised');
+    }
+    try {
+      const track = mediaStream.getVideoTracks()[0];
+      imageCapture = new ImageCapture(track);
+    } catch (e) {
+      imageCapture = CapturePolyfill;
+    }
+  });
 };

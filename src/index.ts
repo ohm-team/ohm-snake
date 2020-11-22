@@ -22,7 +22,10 @@ const initAllAPI = async () => {
     initVoiceService({ isDebug: true }),
     initHeadControl({
       isDebug: true,
-      onCameraPersmissionFailed: () => alert('This game is head-controlled. You need to enable camera to play the game.'),
+      onCameraPersmissionFailed: () =>
+        alert(
+          'Access to the camera is required to control the snake with head movements. To play the game please refresh the page and allow access to your camera.'
+        ),
     }),
     initVisibilityService({
       isDebug: true,
