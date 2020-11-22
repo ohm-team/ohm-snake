@@ -1,7 +1,7 @@
 {
   "name": "ohm-snake",
   "version": "0.0.0",
-  "description": "",
+  "description": "A 3D snake game written in threejs, which uses Tensorflow (ML) to control the snake with head movements. Move your head left and right to control the snake and open your mouth to make the snake slower! All magic is rendered on the screen using Canvas API.",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve",
