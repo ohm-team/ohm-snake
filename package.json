@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/ohm-team/ohm-snake#readme",
   "devDependencies": {
+    "@types/w3c-image-capture": "^1.0.2",
     "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
     "html-webpack-plugin": "^4.5.0",
