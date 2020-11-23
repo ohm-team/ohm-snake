@@ -24,7 +24,7 @@ document.getElementById('console').addEventListener('click', () => {
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const startGameController = async (playerName: string, { isDebug }: { isDebug: boolean }) => {
-  // window.ga('send', 'event', 'game', 'started');
+  window.gtag('event', 'game_started');
   try {
     await sleep(500);
     alert(`How to play?
@@ -87,7 +87,7 @@ export const startGameController = async (playerName: string, { isDebug }: { isD
 };
 
 const endGame = () => {
-  // window.ga('send', 'event', 'game', 'finished');
+  window.gtag('event', 'game_finished');
   hideElement(document.getElementById('game'));
   showElement(document.getElementById('gameover'));
   document.getElementById('replay').addEventListener('click', () => {
