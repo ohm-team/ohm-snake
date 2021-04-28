@@ -1,5 +1,7 @@
 # Emotional Snake
 
+> Winner of The [Lucky Wheel Hackathon](https://theluckywheel.techatjasmin.com/#results)!
+
 <p align="center">
   <a href="https://ohm-team.github.io/ohm-snake/">
     <img alt="Game banner" src="./docs/banner.png"></a>
@@ -71,3 +73,8 @@
 - [mohayonao](https://github.com/mohayonao) for the [adsr-envelope](https://github.com/mohayonao/adsr-envelope)
 - [lodash](https://github.com/lodash) for the [lodash.throttle](https://www.npmjs.com/package/lodash.throttle)
 - [AndresMWeber](https://github.com/AndresMWeber) for the [4DSnake](https://github.com/AndresMWeber/4DSnake)
+
+### Press
+
+- [Oficial website of the Lucky Wheel Hackathon](https://theluckywheel.techatjasmin.com/#results)
+- [itbusiness.hu](https://www.itbusiness.hu/technology/human/oktatas/tarolt-a-kigyos-jatek-ujragondolt-valtozata-)
