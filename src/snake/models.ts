@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { RAD180, RAD270, RAD90 } from './constants';
 import { collider, food, snakeMaterialsLookup, snake_body } from './materials';
 import { choice } from './utils';
-
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 // @ts-ignore
-const loader = new THREE.FBXLoader();
+const loader = new FBXLoader();
 
 export const getApple = (x: number, y: number, z: number, unitSize: number) => {
   const colliderBox = new THREE.BoxBufferGeometry(unitSize, unitSize, unitSize);
@@ -16,7 +16,7 @@ export const getApple = (x: number, y: number, z: number, unitSize: number) => {
   loader.load('./models/fruit.fbx', function (object) {
     object.name = `FoodFBX`;
     object.scale.set(unitSize, unitSize, unitSize);
-    object.children[2].material = food;
+    (object.children[2] as any).material = food;
     foodGroup.add(object);
   });
   apple.add(foodGroup);

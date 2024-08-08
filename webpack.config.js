@@ -16,9 +16,6 @@ module.exports = {
     path: path.resolve(__dirname, './public'),
     filename: '[name].[contenthash].js',
   },
-  externals: {
-    three: 'THREE',
-  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
