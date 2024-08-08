@@ -1,5 +1,15 @@
 # Emotional Snake
 
+> [!IMPORTANT]
+> This game was written in 2 days for the hackathon.
+>
+> Some things did not age well ☹️ since 2020 – hackathon website is not working anymore
+>
+> And camera capture is not fully functional on iOS 
+>
+> But you still can enjoy it on Android or desktop!
+
+
 > Winner of The [Lucky Wheel Hackathon](https://theluckywheel.techatjasmin.com/#results)!
 
 <p align="center">
@@ -38,7 +48,7 @@
 </p>
 
 - To **run the game**: `npm start` and visit [https://localhost:8080/](https://localhost:8080/) (It uses a self-signed HTTPS certificate to serve frontend. This is required for some of the API's.).
-- Or **visit [application link](https://ohm-team.github.io/ohm-snake/)** directly from your mobile browser (both iOS and Android are supported).
+- Or **visit [application link](https://ohm-team.github.io/ohm-snake/)** directly from your mobile browser ( Android are supported).
 
 ### Compatibility
 
