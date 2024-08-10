@@ -10,7 +10,7 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     https: true,
-    contentBase: path.join(__dirname, 'public'),
+    static: path.join(__dirname, 'public'),
   },
   output: {
     path: path.resolve(__dirname, './public'),
