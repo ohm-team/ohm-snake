@@ -82,7 +82,7 @@ class HeadControlService extends EventTarget {
     super();
     this.settings = { ...defaultSettings, ...settings };
 
-    window.JEEFACEFILTERAPI.init({
+    window.JEELIZFACEFILTER.init({
       canvasId: canvasId,
       NNCPath: './vendor/',
       animateDelay: 20, //avoid DOM lags
@@ -275,7 +275,7 @@ class HeadControlService extends EventTarget {
 
 declare global {
   interface Window {
-    JEEFACEFILTERAPI: {
+    JEELIZFACEFILTER: {
       init: (settings: {
         canvasId: string;
         NNCPath: string;
