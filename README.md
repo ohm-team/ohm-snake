@@ -3,11 +3,8 @@
 > [!IMPORTANT]
 > This game was written in 2 days for the hackathon.
 >
-> Some things did not age well ☹️ since 2020 – hackathon website is not working anymore
+> Some things did not age well ☹️ since 2020 – hackathon website is not working anymore :(
 >
-> And camera capture is not fully functional on iOS
->
-> But you still can enjoy it on Android or desktop!
 
 > Winner of The [Lucky Wheel Hackathon](https://theluckywheel.techatjasmin.com/#results)!
 
